@@ -7,6 +7,7 @@ import com.dtrajko.java.game.input.Keyboard;
 public class Player extends Mob {
 
 	private Keyboard input;
+	private Sprite sprite;
 
 	public Player(Keyboard input) {
 		this.input = input;
@@ -29,8 +30,13 @@ public class Player extends Mob {
 	}
 
 	public void render(Screen screen) {
+		if (dir == 0) sprite = Sprite.player_forward;
+		if (dir == 1) sprite = Sprite.player_right;
+		if (dir == 2) sprite = Sprite.player_back;
+		if (dir == 3) sprite = Sprite.player_left;
+
 		int xx = x - Sprite.player.SIZE;
 		int yy = y - Sprite.player.SIZE;
-		screen.renderPlayer(xx, yy, Sprite.player);
+		screen.renderPlayer(xx, yy, sprite);
 	}
 }
