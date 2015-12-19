@@ -9,7 +9,9 @@ public class Tile {
 	public Sprite sprite;
 	
 	public static Tile grass = new GrassTile(Sprite.grass);
-	public static Tile mushroom = new BushTile(Sprite.bush);
+	public static Tile water = new WaterTile(Sprite.water);
+	public static Tile wall = new WallTile(Sprite.wall);
+	public static Tile bush = new BushTile(Sprite.bush);
 	public static Tile rock = new RockTile(Sprite.rock);
 	public static Tile voidTile = new VoidTile(Sprite.voidSprite);
 

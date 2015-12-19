@@ -19,6 +19,9 @@ public class Player extends Mob {
 		this.x = x;
 		this.y = y;
 		this.input = input;
+		// make it turn right at the beginning
+		input.right = true;
+		update();
 	}
 
 	public void update() {

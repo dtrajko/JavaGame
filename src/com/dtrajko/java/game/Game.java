@@ -18,6 +18,7 @@ import com.dtrajko.java.game.graphics.Sprite;
 import com.dtrajko.java.game.input.Keyboard;
 import com.dtrajko.java.game.level.Level;
 import com.dtrajko.java.game.level.RandomLevel;
+import com.dtrajko.java.game.level.SpawnLevel;
 
 public class Game extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;
@@ -30,7 +31,7 @@ public class Game extends Canvas implements Runnable {
 	private Thread thread;
 	private JFrame frame;
 	private Keyboard key;
-	private Level level;
+	public Level level;
 	private Player player;
 	private boolean running = false;
 
@@ -48,8 +49,9 @@ public class Game extends Canvas implements Runnable {
 		screen = new Screen(width, height);
 		frame = new JFrame();
 		key = new Keyboard();
-		level = new RandomLevel(64, 64);
-		player = new Player(key);
+		level = new SpawnLevel("/textures/mapa_lavirint.png");
+		player = new Player(40, 20, key);
+		// level = new RandomLevel(64, 64);
         // setFocusable(true);
         // requestFocusInWindow();
 		addKeyListener(key);
@@ -121,8 +123,8 @@ public class Game extends Canvas implements Runnable {
 		}
 
 		screen.clear();
-		int xScroll = player.x - screen.width / 2 - Sprite.player.SIZE / 2;
-		int yScroll = player.y - screen.height / 2 - Sprite.player.SIZE / 2;
+		int xScroll = player.x - screen.width / 2;
+		int yScroll = player.y - screen.height / 2;
 		level.render(xScroll, yScroll, screen);
 		player.render(screen);
 		// screen.render(x, y);
