@@ -66,16 +66,24 @@ public class Screen {
 		}
 	}
 
-	public void renderPlayer(int xp, int yp, Sprite sprite) {
+	public void renderPlayer(int xp, int yp, Sprite sprite, int flip) {
 		xp -= xOffset;
 		yp -= yOffset;
 		for (int y = 0; y < Sprite.player.SIZE; y++) {
 			int ya = y + yp;
+			int ys = y;
+			if (flip == 2 || flip == 3) {
+				ys = (Sprite.player.SIZE - 1) - y;
+			}
 			for (int x = 0; x < Sprite.player.SIZE; x++) {
 				int xa = x + xp;
+				int xs = x;
+				if (flip == 1 || flip == 3) {
+					xs = (Sprite.player.SIZE - 1) - x;
+				}
 				if (xa < -Sprite.player.SIZE || xa >= width || ya < 0 || ya >= height) break;
 				if (xa < 0) xa = 0;
-				int col = sprite.pixels[x + y * Sprite.player.SIZE];
+				int col = sprite.pixels[xs + ys * Sprite.player.SIZE];
 				if (col != 0xffff00ff) pixels[xa + ya * width] = col;
 			}
 		}
