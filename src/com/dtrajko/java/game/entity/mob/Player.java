@@ -43,7 +43,7 @@ public class Player extends Mob {
 		if (dir == 0) {
 			sprite = Sprite.player_forward;
 			if (walking) {
-				if (anim % 40 > 20) {
+				if (anim % 60 > 30) {
 					sprite = Sprite.player_forward_1;
 				} else {
 					sprite = Sprite.player_forward_2;
@@ -53,7 +53,7 @@ public class Player extends Mob {
 		if (dir == 1 || dir == 3) {
 			sprite = Sprite.player_side;
 			if (walking) {
-				if (anim % 40 > 20) {
+				if (anim % 60 > 30) {
 					sprite = Sprite.player_side_1;
 				} else {
 					sprite = Sprite.player_side_2;
@@ -66,7 +66,7 @@ public class Player extends Mob {
 		if (dir == 2) {
 			sprite = Sprite.player_back;
 			if (walking) {
-				if (anim % 40 > 20) {
+				if (anim % 60 > 30) {
 					sprite = Sprite.player_back_1;
 				} else {
 					sprite = Sprite.player_back_2;
