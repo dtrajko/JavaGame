@@ -13,7 +13,7 @@ public class RandomLevel extends Level {
 	protected void generateLevel() {
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				tilesInt[x + y * width] = random.nextInt(12);
+				tiles[x + y * width] = random.nextInt(12);
 				// System.out.println("X: " + x + " Y: " + y + " TILE TYPE: " + tiles[x + y * width]);
 			}
 		}

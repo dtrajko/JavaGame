@@ -14,11 +14,9 @@ import javax.swing.JFrame;
 
 import com.dtrajko.java.game.entity.mob.Player;
 import com.dtrajko.java.game.graphics.Screen;
-import com.dtrajko.java.game.graphics.Sprite;
 import com.dtrajko.java.game.input.Keyboard;
 import com.dtrajko.java.game.level.Level;
-import com.dtrajko.java.game.level.RandomLevel;
-import com.dtrajko.java.game.level.SpawnLevel;
+import com.dtrajko.java.game.level.TileCoordinate;
 
 public class Game extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;
@@ -49,8 +47,10 @@ public class Game extends Canvas implements Runnable {
 		screen = new Screen(width, height);
 		frame = new JFrame();
 		key = new Keyboard();
-		level = new SpawnLevel("/textures/mapa_lavirint.png");
-		player = new Player(40, 20, key);
+		level = Level.spawn;
+		TileCoordinate playerSpawn = new TileCoordinate(2, 1);
+		player = new Player(playerSpawn.x(), playerSpawn.y(), key);
+		player.init(level);
 		// level = new RandomLevel(64, 64);
         // setFocusable(true);
         // requestFocusInWindow();

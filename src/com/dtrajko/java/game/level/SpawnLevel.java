@@ -5,12 +5,10 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import com.dtrajko.java.game.level.tile.Tile;
-
 public class SpawnLevel extends Level {
 
-	public int w, h;
-	private int[] levelPixels;
+	// public int w, h;
+	// private int[] tiles;
 
 	public SpawnLevel(String path) {
 		super(path);
@@ -19,11 +17,11 @@ public class SpawnLevel extends Level {
 	protected void loadLevel(String path) {
 		try {
 			BufferedImage image = ImageIO.read(SpawnLevel.class.getResource(path));
-			w = image.getWidth();
-			h = image.getHeight();
-			tiles = new Tile[w * h];
-			levelPixels = new int[w * h];
-			image.getRGB(0, 0, w, h, levelPixels, 0, w);
+			width = image.getWidth();
+			height = image.getHeight();
+			// tiles = new Tile[w * h];
+			tiles = new int[width * height];
+			image.getRGB(0, 0, width, height, tiles, 0, width);
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("Exception! Could not load level file '" + path + "'!");
@@ -37,10 +35,12 @@ public class SpawnLevel extends Level {
 	// WallTile = ffff00
 	// WaterTile = 0000ff
 	protected void generateLevel() {
+		/*
 		for (int i = 0; i < levelPixels.length; i++) {
 			if (levelPixels[i] == 0xff00ff00) tiles[i] = Tile.grass;
 			if (levelPixels[i] == 0xffffff00) tiles[i] = Tile.wall;
 			if (levelPixels[i] == 0xff0000ff) tiles[i] = Tile.water;
 		}
+		*/
 	}
 }

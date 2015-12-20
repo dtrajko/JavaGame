@@ -2,8 +2,6 @@ package com.dtrajko.java.game.graphics;
 
 import java.util.Random;
 
-import com.dtrajko.java.game.entity.mob.Player;
-// import com.dtrajko.java.game.graphics.Sprite;
 import com.dtrajko.java.game.level.tile.Tile;
 
 public class Screen {

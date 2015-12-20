@@ -8,6 +8,7 @@ public abstract class Mob extends Entity {
 	protected Sprite sprite;
 	protected int dir = 0;
 	protected boolean moving = false;
+	protected boolean walking = false;
 
 	public void move(int xa, int ya) {
 		if (xa > 0) dir = 1;
@@ -15,18 +16,33 @@ public abstract class Mob extends Entity {
 		if (ya > 0) dir = 2;
 		if (ya < 0) dir = 0;
 
-		if (!collision()) {
+		if (!collision(xa, 0)) {
 			// x = -1, 0, 1
-			x += xa;
-			y += ya;			
+			x += xa;			
+		}
+
+		if (!collision(0, ya)) {
+			// y = -1, 0, 1
+			y += ya;		
 		}
 	}
 
 	public void update() {
 	}
 
-	private boolean collision() {
-		return false;
+	private boolean collision(int xa, int ya) {
+		boolean solid = false;
+		int xCorrection = 0;
+		int yCorrection = 0;
+		if (xa < 0) xCorrection = -32;
+		if (xa > 0) xCorrection = 0;
+		if (ya < 0) yCorrection = -16;
+		if (ya > 0) yCorrection = +4;
+		if (level.getTile((x + xCorrection + xa) / 16, (y + yCorrection + ya) / 16).solid()) {
+			solid = true;
+		}
+		System.out.println(xa + ", " + ya);
+		return solid;
 	}
 
 	public void render() {

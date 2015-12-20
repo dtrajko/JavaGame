@@ -9,10 +9,12 @@ public class Player extends Mob {
 	private Keyboard input;
 	private Sprite sprite;
 	private int anim = 0;
-	private boolean walking = true;
+	private boolean walking = false;
 	
 	public Player(Keyboard input) {
 		this.input = input;
+		input.right = true;
+		// update();
 	}
 
 	public Player(int x, int y, Keyboard input) {
@@ -20,8 +22,8 @@ public class Player extends Mob {
 		this.y = y;
 		this.input = input;
 		// make it turn right at the beginning
-		input.right = true;
-		update();
+		input.down = true;
+		// update();
 	}
 
 	public void update() {
