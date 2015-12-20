@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import com.dtrajko.java.game.entity.mob.Player;
 import com.dtrajko.java.game.graphics.Screen;
 import com.dtrajko.java.game.input.Keyboard;
+import com.dtrajko.java.game.input.Mouse;
 import com.dtrajko.java.game.level.Level;
 import com.dtrajko.java.game.level.TileCoordinate;
 
@@ -55,6 +56,10 @@ public class Game extends Canvas implements Runnable {
         // setFocusable(true);
         // requestFocusInWindow();
 		addKeyListener(key);
+
+		Mouse mouse = new Mouse();
+		addMouseListener(mouse);
+		addMouseMotionListener(mouse);
 	}
 
 	public synchronized void start() {
@@ -138,9 +143,13 @@ public class Game extends Canvas implements Runnable {
 		// g.setColor(Color.BLACK);
 		// g.fillRect(0, 0, getWidth(), getHeight());
 		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
-		g.setColor(Color.WHITE);
-		g.setFont(new Font("Verdana", 0, 32));
-		g.drawString("X: " + player.x + " Y:" + player.y, 660, 460);
+		g.setFont(new Font("Verdana", Font.BOLD, 24));
+		// g.fillRect(Mouse.getX() - 16, Mouse.getY() - 16, 32, 32);
+		g.setColor(Color.GREEN);
+		g.fillOval(Mouse.getX() - 16, Mouse.getY() - 16, 32, 32);
+		// g.setColor(Color.WHITE);
+		g.drawString("X: " + player.x + " | Y:" + player.y + " | mX: " + Mouse.getX() + " | mY: " + Mouse.getY() +
+			" | mB: " + Mouse.getButton(), 20, 470);
 		g.dispose();
 		bs.show();
 	}

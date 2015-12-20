@@ -37,7 +37,7 @@ public abstract class Mob extends Entity {
 		if (xa < 0) xCorrection = -32;
 		if (xa > 0) xCorrection = 0;
 		if (ya < 0) yCorrection = -16;
-		if (ya > 0) yCorrection = +4;
+		if (ya > 0) yCorrection = 0;
 		if (level.getTile((x + xCorrection + xa) / 16, (y + yCorrection + ya) / 16).solid()) {
 			solid = true;
 		}
