@@ -7,11 +7,12 @@ public class Sprite {
 	public int[] pixels;
 	private SpriteSheet sheet;
 
-	public static Sprite grass = new Sprite(16, 0, 0, SpriteSheet.tiles);
-	public static Sprite water = new Sprite(16, 0, 1, SpriteSheet.tiles);
-	public static Sprite wall  = new Sprite(16, 0, 2, SpriteSheet.tiles);
-	public static Sprite bush  = new Sprite(16, 1, 0, SpriteSheet.tiles);
-	public static Sprite rock  = new Sprite(16, 1, 1, SpriteSheet.tiles);
+	public static Sprite grass  = new Sprite(16, 0, 0, SpriteSheet.tiles);
+	public static Sprite water  = new Sprite(16, 0, 1, SpriteSheet.tiles);
+	public static Sprite wall   = new Sprite(16, 0, 2, SpriteSheet.tiles);
+	public static Sprite bush   = new Sprite(16, 1, 0, SpriteSheet.tiles);
+	public static Sprite rock   = new Sprite(16, 1, 1, SpriteSheet.tiles);
+	public static Sprite bullet = new Sprite(16, 0, 3, SpriteSheet.tiles);
 
 	public static Sprite voidSprite = new Sprite(16, 0x0066ff);
 
@@ -36,7 +37,7 @@ public class Sprite {
 	public static Sprite player_forward_2 = new Sprite(32, 3, 2, SpriteSheet.tiles);
 	public static Sprite player_back_2    = new Sprite(32, 5, 2, SpriteSheet.tiles);
 	public static Sprite player_side_2    = new Sprite(32, 4, 2, SpriteSheet.tiles);
-
+	
 	public Sprite(int size, int x, int y, SpriteSheet sheet) {
 		SIZE = size;
 		pixels = new int[SIZE * SIZE];

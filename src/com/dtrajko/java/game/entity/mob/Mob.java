@@ -1,6 +1,11 @@
 package com.dtrajko.java.game.entity.mob;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.dtrajko.java.game.entity.Entity;
+import com.dtrajko.java.game.entity.projectile.Projectile;
+import com.dtrajko.java.game.entity.projectile.WizardProjectile;
 import com.dtrajko.java.game.graphics.Sprite;
 
 public abstract class Mob extends Entity {
@@ -28,6 +33,13 @@ public abstract class Mob extends Entity {
 	}
 
 	public void update() {
+	}
+
+	protected void shoot(int x, int y, double dir) {
+		// dir *=180 / Math.PI;
+		// System.out.println("Angle: " + Math.round(dir));
+		Projectile p = new WizardProjectile(x, y, dir);
+		level.addProjectile(p);
 	}
 
 	private boolean collision(int xa, int ya) {

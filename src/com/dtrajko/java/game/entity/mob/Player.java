@@ -1,8 +1,11 @@
 package com.dtrajko.java.game.entity.mob;
 
+import com.dtrajko.java.game.Game;
+import com.dtrajko.java.game.entity.projectile.Projectile;
 import com.dtrajko.java.game.graphics.Screen;
 import com.dtrajko.java.game.graphics.Sprite;
 import com.dtrajko.java.game.input.Keyboard;
+import com.dtrajko.java.game.input.Mouse;
 
 public class Player extends Mob {
 
@@ -10,6 +13,7 @@ public class Player extends Mob {
 	private Sprite sprite;
 	private int anim = 0;
 	private boolean walking = false;
+	private int click_count = 0;
 	
 	public Player(Keyboard input) {
 		this.input = input;
@@ -40,6 +44,30 @@ public class Player extends Mob {
 			walking = true;
 		} else {
 			walking = false;
+		}
+		clear();
+		updateShooting();
+	}
+
+	private void clear() {
+		for (int i = 0; i < level.getProjectiles().size(); i++) {
+			Projectile p = level.getProjectiles().get(i);
+			if (p.isRemoved()) level.getProjectiles().remove(i);
+		}
+		System.out.println("Total projectiles: " + level.getProjectiles().size());
+	}
+
+	private void updateShooting() {
+		if (Mouse.getButton() == 1) {
+			click_count++;
+			if (click_count % 3 == 0) { // shoot on each 4th click
+				double dx = Mouse.getX() - Game.getWindowWidth() / 2;
+				double dy = Mouse.getY() - Game.getWindowHeight() / 2;
+				double dir = Math.atan2(dy, dx);
+				// System.out.println("updateShooting dx: " + dx + " dy: " + dy + " dir: " + dir);
+				shoot(x - 24, y - 20, dir);
+				// shoot(x, y, dir);
+			}
 		}
 	}
 

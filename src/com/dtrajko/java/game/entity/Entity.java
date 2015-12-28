@@ -14,7 +14,7 @@ public abstract class Entity {
 
 	public void init(Level level) {
 		this.level = level;
-		System.out.println("Level: " + level);
+		// System.out.println("Level: " + level);
 	}
 
 	public void update() {		

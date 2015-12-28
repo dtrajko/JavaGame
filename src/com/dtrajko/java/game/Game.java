@@ -61,6 +61,14 @@ public class Game extends Canvas implements Runnable {
 		addMouseListener(mouse);
 		addMouseMotionListener(mouse);
 	}
+	
+	public static int getWindowWidth() {
+		return width * scale;
+	}
+
+	public static int getWindowHeight() {
+		return height * scale;
+	}
 
 	public synchronized void start() {
 		running = true;
@@ -112,6 +120,7 @@ public class Game extends Canvas implements Runnable {
 	public void update() {
 		key.update();
 		player.update();
+		level.update();
 		/**
 		if (key.up) y--;
 		if (key.down) y++;
