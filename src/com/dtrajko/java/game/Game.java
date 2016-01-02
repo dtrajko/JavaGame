@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 
 import com.dtrajko.java.game.entity.mob.Player;
 import com.dtrajko.java.game.graphics.Screen;
+import com.dtrajko.java.game.graphics.Sprite;
 import com.dtrajko.java.game.input.Keyboard;
 import com.dtrajko.java.game.input.Mouse;
 import com.dtrajko.java.game.level.Level;
@@ -142,6 +143,9 @@ public class Game extends Canvas implements Runnable {
 		level.render(xScroll, yScroll, screen);
 		player.render(screen);
 		// screen.render(x, y);
+
+		Sprite sprite = new Sprite(80, 80, 0xff00ff);
+		screen.renderSprite(0, 0, sprite, false);
 
 		for(int i = 0; i < pixels.length; i++) {
 			pixels[i] = screen.pixels[i];

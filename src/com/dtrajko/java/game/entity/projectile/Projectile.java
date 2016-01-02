@@ -10,7 +10,7 @@ public abstract class Projectile extends Entity {
 	protected Sprite sprite;
 	protected double x, y;
 	protected double nx, ny;
-	protected double speed, rateOfFire, range, damage;
+	protected double speed, range, damage;
 
 	public Projectile(int x, int y, double dir) {
 		xOrigin = x;

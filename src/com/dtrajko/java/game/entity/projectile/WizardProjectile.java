@@ -4,13 +4,14 @@ import com.dtrajko.java.game.graphics.Screen;
 import com.dtrajko.java.game.graphics.Sprite;
 
 public class WizardProjectile extends Projectile {
+	
+	public static final int FIRE_RATE = 10; // Higher is slower!
 
 	public WizardProjectile(int x, int y, double dir) {
 		super(x, y, dir);
 		range = 200;
 		speed = 4;
 		damage = 20;
-		rateOfFire = 15;
 		sprite = Sprite.bullet;
 		nx = speed * Math.cos(angle);
 		ny = speed * Math.sin(angle);
@@ -21,8 +22,10 @@ public class WizardProjectile extends Projectile {
 	}
 
 	protected void move() {
-		x += nx;
-		y += ny;
+		if (!level.tileCollision(x, y, nx, ny, 8)) {
+			x += nx;
+			y += ny;
+		}
 		if (distance() > range) remove();
 		// System.out.println("Distance: " + calculateDistance());
 	}

@@ -2,6 +2,7 @@ package com.dtrajko.java.game.entity.mob;
 
 import com.dtrajko.java.game.Game;
 import com.dtrajko.java.game.entity.projectile.Projectile;
+import com.dtrajko.java.game.entity.projectile.WizardProjectile;
 import com.dtrajko.java.game.graphics.Screen;
 import com.dtrajko.java.game.graphics.Sprite;
 import com.dtrajko.java.game.input.Keyboard;
@@ -13,7 +14,9 @@ public class Player extends Mob {
 	private Sprite sprite;
 	private int anim = 0;
 	private boolean walking = false;
-	private int click_count = 0;
+	private Projectile p;
+	private int fireRate = 0;
+	// private int click_count = 0;
 	
 	public Player(Keyboard input) {
 		this.input = input;
@@ -28,9 +31,11 @@ public class Player extends Mob {
 		// make it turn right at the beginning
 		input.down = true;
 		// update();
+		fireRate = WizardProjectile.FIRE_RATE;
 	}
 
 	public void update() {
+		if (fireRate > 0) fireRate--;
 		int xa = 0, ya = 0;
 		if (anim < 400) anim++;
 		else anim = 0;
@@ -58,16 +63,15 @@ public class Player extends Mob {
 	}
 
 	private void updateShooting() {
-		if (Mouse.getButton() == 1) {
-			click_count++;
-			if (click_count % 3 == 0) { // shoot on each 4th click
-				double dx = Mouse.getX() - Game.getWindowWidth() / 2;
-				double dy = Mouse.getY() - Game.getWindowHeight() / 2;
-				double dir = Math.atan2(dy, dx);
-				// System.out.println("updateShooting dx: " + dx + " dy: " + dy + " dir: " + dir);
-				shoot(x - 24, y - 20, dir);
-				// shoot(x, y, dir);
-			}
+		if (Mouse.getButton() == 1 && fireRate <= 0) {
+			// click_count++;
+			// if (click_count % 3 == 0) { // shoot on each 4th click
+			double dx = Mouse.getX() - Game.getWindowWidth() / 2;
+			double dy = Mouse.getY() - Game.getWindowHeight() / 2;
+			double dir = Math.atan2(dy, dx);
+			// System.out.println("updateShooting dx: " + dx + " dy: " + dy + " dir: " + dir);
+			shoot(x - 24, y - 20, dir);
+			fireRate = WizardProjectile.FIRE_RATE;
 		}
 	}
 
