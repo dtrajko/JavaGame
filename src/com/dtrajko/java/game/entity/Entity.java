@@ -5,6 +5,9 @@ import java.util.Random;
 import com.dtrajko.java.game.graphics.Screen;
 import com.dtrajko.java.game.level.Level;
 
+/**
+ * Entity - abstract class for objects that should be added to a level
+ */
 public abstract class Entity {
 
 	public int x, y;

@@ -38,7 +38,8 @@ public class Sprite {
 	public static Sprite player_forward_2 = new Sprite(32, 3, 2, SpriteSheet.tiles);
 	public static Sprite player_back_2    = new Sprite(32, 5, 2, SpriteSheet.tiles);
 	public static Sprite player_side_2    = new Sprite(32, 4, 2, SpriteSheet.tiles);
-	
+	public static Sprite particle_normal  = new Sprite(3, 0xffd100);
+
 	public Sprite(int size, int x, int y, SpriteSheet sheet) {
 		SIZE = size;
 		pixels = new int[SIZE * SIZE];
@@ -59,7 +60,8 @@ public class Sprite {
 	}
 
 	public Sprite(int size, int colour) {
-		SIZE = size;
+		System.out.println("Sprite constructor, size: " + size);
+		this.SIZE = size;
 		this.width = size;
 		this.height = size;
 		pixels = new int[SIZE * SIZE];

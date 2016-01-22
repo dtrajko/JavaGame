@@ -14,7 +14,6 @@ import javax.swing.JFrame;
 
 import com.dtrajko.java.game.entity.mob.Player;
 import com.dtrajko.java.game.graphics.Screen;
-import com.dtrajko.java.game.graphics.Sprite;
 import com.dtrajko.java.game.input.Keyboard;
 import com.dtrajko.java.game.input.Mouse;
 import com.dtrajko.java.game.level.Level;
@@ -23,7 +22,7 @@ import com.dtrajko.java.game.level.TileCoordinate;
 public class Game extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;
 
-	public static int width = 300;
+	public static int width = 400;
 	public static int height = width / 16 * 9;
 	public static int scale = 3;
 	public static String title = "Game";
@@ -50,7 +49,7 @@ public class Game extends Canvas implements Runnable {
 		frame = new JFrame();
 		key = new Keyboard();
 		level = Level.spawn;
-		TileCoordinate playerSpawn = new TileCoordinate(2, 1);
+		TileCoordinate playerSpawn = new TileCoordinate(19, 62);
 		player = new Player(playerSpawn.x(), playerSpawn.y(), key);
 		player.init(level);
 		// level = new RandomLevel(64, 64);
@@ -144,8 +143,10 @@ public class Game extends Canvas implements Runnable {
 		player.render(screen);
 		// screen.render(x, y);
 
+		/*
 		Sprite sprite = new Sprite(80, 80, 0xff00ff);
 		screen.renderSprite(0, 0, sprite, false);
+		*/
 
 		for(int i = 0; i < pixels.length; i++) {
 			pixels[i] = screen.pixels[i];
@@ -162,7 +163,7 @@ public class Game extends Canvas implements Runnable {
 		g.fillOval(Mouse.getX() - 16, Mouse.getY() - 16, 32, 32);
 		// g.setColor(Color.WHITE);
 		g.drawString("X: " + player.x + " | Y:" + player.y + " | mX: " + Mouse.getX() + " | mY: " + Mouse.getY() +
-			" | mB: " + Mouse.getButton(), 20, 470);
+			" | mB: " + Mouse.getButton(), 20, 660);
 		g.dispose();
 		bs.show();
 	}

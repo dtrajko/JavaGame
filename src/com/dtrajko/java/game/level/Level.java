@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.dtrajko.java.game.entity.Entity;
+import com.dtrajko.java.game.entity.particle.Particle;
 import com.dtrajko.java.game.entity.projectile.Projectile;
 import com.dtrajko.java.game.graphics.Screen;
 import com.dtrajko.java.game.level.tile.Tile;
@@ -17,6 +18,7 @@ public class Level {
 
 	private List<Entity> entities = new ArrayList<Entity>();
 	private List<Projectile> projectiles = new ArrayList<Projectile>();
+	private List<Particle> particles = new ArrayList<Particle>();
 
 	public static Level spawn = new SpawnLevel("/levels/level_01.png");
 
@@ -45,30 +47,42 @@ public class Level {
 		for (int i = 0; i < projectiles.size(); i++) {
 			projectiles.get(i).update();
 		}
+		for (int i = 0; i < particles.size(); i++) {
+			particles.get(i).update();
+		}
+		remove();
+	}
+
+	public void remove() {
+		for (int i = 0; i < entities.size(); i++) {
+			if (entities.get(i).isRemoved()) {
+				entities.remove(i);
+			}
+		}
+		for (int i = 0; i < projectiles.size(); i++) {
+			if (projectiles.get(i).isRemoved()) {
+				projectiles.remove(i);
+			}
+		}
+		for (int i = 0; i < particles.size(); i++) {
+			if (particles.get(i).isRemoved()) {
+				particles.remove(i);
+			}
+		}
 	}
 
 	public List<Projectile> getProjectiles() {
 		return projectiles;
 	}
 
-	public boolean tileCollision(double x, double y, double xa, double ya, int size) {
-		int xAdjust = 0;
-		int yAdjust = 8;
-		if (xa < 0) {
-			xAdjust = -8;
-		} else {
-			xAdjust = 8;
-		}
-		return getTile((int) (x + xa + xAdjust) / 16, (int) (y + ya + yAdjust) / 16).solid();
-		/**
+	public boolean tileCollision(int x, int y, int size, int xOffset, int yOffset) {
 		boolean solid = false;
 		for (int c = 0; c < 4; c++) {
-			double xt = ((x + xa) + c % 2 * size) / 16;
-			double yt = ((y + ya) + c % 2 * size) / 16;
-			if (getTile((int) xt, (int) yt).solid()) solid = true;
+			int xt = (x - c % 2 * size + xOffset) >> 4;
+			int yt = (y - c / 2 * size + yOffset) >> 4;
+			if (getTile(xt, yt).solid()) solid = true;
 		}
 		return solid;
-		*/
 	}
 
 	public void render(int xScroll, int yScroll, Screen screen) {
@@ -88,10 +102,20 @@ public class Level {
 		for (int i = 0; i < projectiles.size(); i++) {
 			projectiles.get(i).render(screen);
 		}
+		for (int i = 0; i < particles.size(); i++) {
+			particles.get(i).render(screen);
+		}
 	}
 
 	public void add(Entity e) {
-		entities.add(e);
+		e.init(this);
+		if (e instanceof Particle) {
+			particles.add((Particle) e);
+		} else if (e instanceof Projectile) {
+			projectiles.add((Projectile) e);
+		} else {
+			entities.add(e);			
+		}
 	}
 
 	public void addProjectile(Projectile p) {

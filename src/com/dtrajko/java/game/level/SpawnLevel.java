@@ -17,11 +17,11 @@ public class SpawnLevel extends Level {
 	protected void loadLevel(String path) {
 		try {
 			BufferedImage image = ImageIO.read(SpawnLevel.class.getResource(path));
-			width = image.getWidth();
-			height = image.getHeight();
+			int w = width = image.getWidth();
+			int h = height = image.getHeight();
 			// tiles = new Tile[w * h];
-			tiles = new int[width * height];
-			image.getRGB(0, 0, width, height, tiles, 0, width);
+			tiles = new int[w * h];
+			image.getRGB(0, 0, w, h, tiles, 0, w);
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("Exception! Could not load level file '" + path + "'!");
@@ -35,6 +35,11 @@ public class SpawnLevel extends Level {
 	// WallTile = ffff00
 	// WaterTile = 0000ff
 	protected void generateLevel() {
+		for (int y = 0; y < 64; y++) {
+			for (int x = 0; x < 64; x++) {
+				getTile(x, y);
+			}
+		}
 		/*
 		for (int i = 0; i < levelPixels.length; i++) {
 			if (levelPixels[i] == 0xff00ff00) tiles[i] = Tile.grass;

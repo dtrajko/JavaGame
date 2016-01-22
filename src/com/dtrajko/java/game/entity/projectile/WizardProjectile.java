@@ -1,5 +1,8 @@
 package com.dtrajko.java.game.entity.projectile;
 
+import com.dtrajko.java.game.entity.spawner.ParticleSpawner;
+import com.dtrajko.java.game.entity.spawner.Spawner;
+import com.dtrajko.java.game.entity.particle.Particle;
 import com.dtrajko.java.game.graphics.Screen;
 import com.dtrajko.java.game.graphics.Sprite;
 
@@ -18,16 +21,17 @@ public class WizardProjectile extends Projectile {
 	}
 
 	public void update() {
+		if (level.tileCollision((int) (x + nx), (int) (y + ny), 8, 4, 4)) {
+			level.add(new ParticleSpawner((int)x, (int)y, 64, 50, level));
+			remove();
+		}
 		move();
 	}
 
 	protected void move() {
-		if (!level.tileCollision(x, y, nx, ny, 8)) {
 			x += nx;
 			y += ny;
-		}
 		if (distance() > range) remove();
-		// System.out.println("Distance: " + calculateDistance());
 	}
 
 	private double distance() {

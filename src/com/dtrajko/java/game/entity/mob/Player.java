@@ -59,7 +59,7 @@ public class Player extends Mob {
 			Projectile p = level.getProjectiles().get(i);
 			if (p.isRemoved()) level.getProjectiles().remove(i);
 		}
-		System.out.println("Total projectiles: " + level.getProjectiles().size());
+		// System.out.println("Total projectiles: " + level.getProjectiles().size());
 	}
 
 	private void updateShooting() {
@@ -70,7 +70,7 @@ public class Player extends Mob {
 			double dy = Mouse.getY() - Game.getWindowHeight() / 2;
 			double dir = Math.atan2(dy, dx);
 			// System.out.println("updateShooting dx: " + dx + " dy: " + dy + " dir: " + dir);
-			shoot(x - 24, y - 20, dir);
+			shoot(x, y, dir);
 			fireRate = WizardProjectile.FIRE_RATE;
 		}
 	}
@@ -110,8 +110,10 @@ public class Player extends Mob {
 				}
 			}
 		}
-		int xx = x - Sprite.player.SIZE;
-		int yy = y - Sprite.player.SIZE;
+		// int xx = x - Sprite.player.SIZE;
+		// int yy = y - Sprite.player.SIZE;
+		int xx = x;
+		int yy = y;
 		screen.renderPlayer(xx, yy, sprite, flip);
 		// if (dir == 1) sprite = Sprite.player_right;
 		// if (dir == 3) sprite = Sprite.player_left;
