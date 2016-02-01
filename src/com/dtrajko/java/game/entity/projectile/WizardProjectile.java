@@ -12,7 +12,7 @@ public class WizardProjectile extends Projectile {
 
 	public WizardProjectile(int x, int y, double dir) {
 		super(x, y, dir);
-		range = 200;
+		range = 500;
 		speed = 4;
 		damage = 20;
 		sprite = Sprite.bullet;

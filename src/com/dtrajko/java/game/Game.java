@@ -12,6 +12,8 @@ import java.awt.image.DataBufferInt;
 
 import javax.swing.JFrame;
 
+import com.dtrajko.java.game.entity.mob.Dummy;
+import com.dtrajko.java.game.entity.mob.Mob;
 import com.dtrajko.java.game.entity.mob.Player;
 import com.dtrajko.java.game.graphics.Screen;
 import com.dtrajko.java.game.input.Keyboard;
@@ -32,6 +34,7 @@ public class Game extends Canvas implements Runnable {
 	private Keyboard key;
 	public Level level;
 	private Player player;
+	// private Mob mob;
 	private boolean running = false;
 
 	private Screen screen;
@@ -52,6 +55,8 @@ public class Game extends Canvas implements Runnable {
 		TileCoordinate playerSpawn = new TileCoordinate(19, 62);
 		player = new Player(playerSpawn.x(), playerSpawn.y(), key);
 		player.init(level);
+		// mob = new Dummy(25, 57);
+		// mob.init(level);
 		// level = new RandomLevel(64, 64);
         // setFocusable(true);
         // requestFocusInWindow();
@@ -120,6 +125,7 @@ public class Game extends Canvas implements Runnable {
 	public void update() {
 		key.update();
 		player.update();
+		// mob.update();
 		level.update();
 		/**
 		if (key.up) y--;
@@ -141,6 +147,7 @@ public class Game extends Canvas implements Runnable {
 		int yScroll = player.y - screen.height / 2;
 		level.render(xScroll, yScroll, screen);
 		player.render(screen);
+		// mob.render(screen);
 		// screen.render(x, y);
 
 		/*

@@ -5,6 +5,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import com.dtrajko.java.game.entity.mob.Dummy;
+import com.dtrajko.java.game.graphics.Sprite;
+
 public class SpawnLevel extends Level {
 
 	// public int w, h;
@@ -25,6 +28,13 @@ public class SpawnLevel extends Level {
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("Exception! Could not load level file '" + path + "'!");
+		}
+		// add(new Dummy(25, 57));
+		// add(new Dummy(38, 57));
+		for (int i = 0; i < 20; i++) {
+			int coordX = random.nextInt(64);
+			int coordY = random.nextInt(64);
+			add(new Dummy(coordX, coordY));
 		}
 	}
 

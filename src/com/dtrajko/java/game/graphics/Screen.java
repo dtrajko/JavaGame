@@ -8,7 +8,7 @@ public class Screen {
 
 	public int width, height;
 	public int[] pixels;
-	public final int MAP_SIZE = 8;
+	public final int MAP_SIZE = 64;
 	public final int MAP_SIZE_MASK = MAP_SIZE - 1;
 	public int xOffset, yOffset;
 	public int[] tiles = new int[MAP_SIZE * MAP_SIZE];
@@ -31,24 +31,20 @@ public class Screen {
 		}
 	}
 
-	/**
-	public void render(int xOffset, int yOffset) {
-		for (int y = 0; y < height; y++) {
-			int yp = y + yOffset;
-			if (yp < 0 || yp >= height) continue;
-			for (int x = 0; x < width; x++) {
-				int xp = x + xOffset;
-				if (xp < 0 || xp >= width) continue;
-				int xx = x + xOffset;
-				pixels[xp + yp * width] = Sprite.grass.pixels[(x & 15) + (y & 15) * Sprite.grass.SIZE];
-			    // Sprite.grass.pixels[(x & 15) + (y & 15) * Sprite.grass.SIZE];
-				// int tileIndex = ((xx >> 4) & MAP_SIZE_MASK) + ((yy >> 4) & MAP_SIZE_MASK) * MAP_SIZE;
-				// pixels[x + y * width] = tiles[tileIndex];
-				// throw new ArrayIndexOutOfBoundsException();
+	public void renderSheet(int xp, int yp, SpriteSheet sheet, boolean fixed) {
+		if (fixed) {
+			xp -= xOffset;
+			yp -= yOffset;
+		}
+		for (int y = 0; y < sheet.HEIGHT; y++) {
+			int ya = y + yp;
+			for (int x = 0; x < sheet.WIDTH; x++) {
+				int xa = x + xp;
+				if (xa < 0 || xa >= width || ya < 0 || ya >= height) continue; 
+				pixels[xa + ya * width] = sheet.pixels[x + y * sheet.WIDTH];
 			}
 		}
 	}
-	*/
 
 	public void renderSprite(int xp, int yp, Sprite sprite, boolean fixed) {
 		if (fixed) {
@@ -82,24 +78,24 @@ public class Screen {
 		}
 	}
 
-	public void renderPlayer(int xp, int yp, Sprite sprite, int flip) {
+	public void renderMob(int xp, int yp, Sprite sprite, int flip) {
 		xp -= xOffset;
 		yp -= yOffset;
-		for (int y = 0; y < Sprite.player.SIZE; y++) {
+		for (int y = 0; y < sprite.getHeight(); y++) {
 			int ya = y + yp;
 			int ys = y;
 			if (flip == 2 || flip == 3) {
-				ys = (Sprite.player.SIZE - 1) - y;
+				ys = sprite.getHeight() - 1 - y;
 			}
-			for (int x = 0; x < Sprite.player.SIZE; x++) {
+			for (int x = 0; x < sprite.getWidth(); x++) {
 				int xa = x + xp;
 				int xs = x;
 				if (flip == 1 || flip == 3) {
-					xs = (Sprite.player.SIZE - 1) - x;
+					xs = sprite.getWidth() - 1 - x;
 				}
-				if (xa < -Sprite.player.SIZE || xa >= width || ya < 0 || ya >= height) break;
+				if (xa < -(sprite.getWidth()) || xa >= width || ya < 0 || ya >= height) break;
 				if (xa < 0) xa = 0;
-				int col = sprite.pixels[xs + ys * Sprite.player.SIZE];
+				int col = sprite.pixels[xs + ys * sprite.getWidth()];
 				if (col != 0xffff00ff) pixels[xa + ya * width] = col;
 			}
 		}
@@ -124,6 +120,25 @@ public class Screen {
 					pixels[xa + ya * width] = p.getSprite().pixels[x + y * p.getSpriteSize()];
 				}
 			}
+		}
+	}
+
+	public void drawRect(int xp, int yp, int width, int height, int color, boolean fixed) {
+		if (fixed) {
+			xp -= xOffset;
+			yp -= yOffset;
+		}		
+		for (int x = xp; x < xp + width; x++) {
+			if (x < 0 || x >= this.width || yp >= this.height) continue;
+			if (yp > 0) pixels[x + yp * this.width] = color;
+			if (yp + height >= this.height) continue;
+			if (yp + height> 0) pixels[x + (yp + height) * this.width] = color;			
+		}
+		for (int y = yp; y <= yp + height; y++) {
+			if (xp >= this.width || y < 0 || y >= this.height) continue;
+			if (xp > 0) pixels[xp + y * this.width] = color;
+			if (xp + width >= this. width) continue;
+			if (xp + width > 0) pixels[(xp + width) + y * this.width] = color;
 		}
 	}
 }

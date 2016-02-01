@@ -9,20 +9,25 @@ import com.dtrajko.java.game.graphics.Sprite;
 public abstract class Mob extends Entity {
 
 	protected Sprite sprite;
-	protected int dir = 0;
 	protected boolean moving = false;
 	protected boolean walking = false;
 
-	public void move(int xa, int ya) {
+	protected enum Direction {
+		UP, DOWN, LEFT, RIGHT
+	};
+
+	protected Direction dir;
+
+	public void move(double xa, double ya) {
 		if (xa != 0 && ya != 0) {
 			move(xa, 0);
 			move(0, ya);
 			return;
 		}
-		if (xa > 0) dir = 1;
-		if (xa < 0) dir = 3;
-		if (ya > 0) dir = 2;
-		if (ya < 0) dir = 0;
+		if (xa > 0) dir = Direction.RIGHT;
+		if (xa < 0) dir = Direction.LEFT;
+		if (ya > 0) dir = Direction.DOWN;
+		if (ya < 0) dir = Direction.UP;
 
 		if (!collision(xa, ya)) {
 			x += xa;
@@ -35,7 +40,7 @@ public abstract class Mob extends Entity {
 	public void update() {
 	}
 
-	private boolean collision(int xa, int ya) {
+	protected boolean collision(double xa, double ya) {
 		boolean solid = false;
 		int xOffset = 0;
 		int yOffset = 0;
@@ -44,8 +49,8 @@ public abstract class Mob extends Entity {
 		if (ya < 0) yOffset = 0;
 		if (ya > 0) yOffset = 20;
 		for (int c = 0; c < 4; c++) {
-			int xt = ((x + xa) + c % 2 * 12 + xOffset) / 16;
-			int yt = ((y + ya) + c / 2 * 12 + yOffset) / 16;
+			int xt = ((x + (int) xa) + c % 2 * 12 + xOffset) / 16;
+			int yt = ((y + (int) ya) + c / 2 * 12 + yOffset) / 16;
 			if (level.getTile(xt, yt).solid()) {
 				solid = true;
 			}

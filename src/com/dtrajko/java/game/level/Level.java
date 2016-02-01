@@ -2,6 +2,7 @@ package com.dtrajko.java.game.level;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.dtrajko.java.game.entity.Entity;
 import com.dtrajko.java.game.entity.particle.Particle;
@@ -19,8 +20,11 @@ public class Level {
 	private List<Entity> entities = new ArrayList<Entity>();
 	private List<Projectile> projectiles = new ArrayList<Projectile>();
 	private List<Particle> particles = new ArrayList<Particle>();
+	public List<Entity> topLayer = new ArrayList<Entity>();
 
 	public static Level spawn = new SpawnLevel("/levels/level_01.png");
+
+	protected Random random = new Random();
 
 	public Level(int width, int height) {
 		this.width = width;

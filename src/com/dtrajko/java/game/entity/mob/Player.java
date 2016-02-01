@@ -3,8 +3,10 @@ package com.dtrajko.java.game.entity.mob;
 import com.dtrajko.java.game.Game;
 import com.dtrajko.java.game.entity.projectile.Projectile;
 import com.dtrajko.java.game.entity.projectile.WizardProjectile;
+import com.dtrajko.java.game.graphics.AnimatedSprite;
 import com.dtrajko.java.game.graphics.Screen;
 import com.dtrajko.java.game.graphics.Sprite;
+import com.dtrajko.java.game.graphics.SpriteSheet;
 import com.dtrajko.java.game.input.Keyboard;
 import com.dtrajko.java.game.input.Mouse;
 
@@ -16,11 +18,20 @@ public class Player extends Mob {
 	private boolean walking = false;
 	private Projectile p;
 	private int fireRate = 0;
-	// private int click_count = 0;
+	private AnimatedSprite down  = new AnimatedSprite(SpriteSheet.player_anim_down, 32, 32, 3);
+	private AnimatedSprite up    = new AnimatedSprite(SpriteSheet.player_anim_up, 32, 32, 3);
+	private AnimatedSprite left  = new AnimatedSprite(SpriteSheet.player_anim_left, 32, 32, 3);
+	private AnimatedSprite right = new AnimatedSprite(SpriteSheet.player_anim_right, 32, 32, 3);
 	
+	private AnimatedSprite animSprite = down;
+	
+	private double speed = 2;
+
 	public Player(Keyboard input) {
 		this.input = input;
 		input.right = true;
+		sprite = Sprite.player_forward;
+		// animSprite = down;
 		// update();
 	}
 
@@ -30,19 +41,39 @@ public class Player extends Mob {
 		this.input = input;
 		// make it turn right at the beginning
 		input.down = true;
-		// update();
+		sprite = Sprite.player_forward;
 		fireRate = WizardProjectile.FIRE_RATE;
+		// animSprite = down;
+		// update();
 	}
 
 	public void update() {
+		if (walking) {
+			animSprite.update();			
+		} else {
+			animSprite.setFrame(0);
+		}
 		if (fireRate > 0) fireRate--;
-		int xa = 0, ya = 0;
-		if (anim < 400) anim++;
+		double xa = 0, ya = 0;
+		// double speed = 2;
+		speed = (this.input.sprint) ? 5 : 2;
+		System.out.println("Current speed: " + speed);
+		if (anim < 8600) anim++;
 		else anim = 0;
-		if (input.up) ya--;
-		if (input.down) ya++;
-		if (input.left) xa--;
-		if (input.right) xa++;
+		if (input.up) {
+			animSprite = up;
+			ya -= speed;
+		} else if (input.down) {
+			animSprite = down;
+			ya += speed;
+		}
+		if (input.left) {
+			animSprite = left;
+			xa -= speed;
+		} else if (input.right) {
+			animSprite = right;
+			xa += speed;
+		}
 
 		if (xa != 0 || ya != 0) {
 			move(xa, ya);
@@ -73,11 +104,26 @@ public class Player extends Mob {
 			shoot(x, y, dir);
 			fireRate = WizardProjectile.FIRE_RATE;
 		}
+		if (input.space && fireRate <= 0) {
+			double shoot_direction = 0;
+			if (dir == Direction.RIGHT) {
+				shoot_direction = 0;
+			} else if (dir == Direction.LEFT) {
+				shoot_direction = Math.PI;
+			} else if (dir == Direction.UP) {
+				shoot_direction = Math.PI * 1.5;
+			} else if (dir == Direction.DOWN) {
+				shoot_direction = Math.PI * 0.5;
+			}
+			shoot(x, y, shoot_direction);
+			fireRate = WizardProjectile.FIRE_RATE;
+		}
 	}
 
 	public void render(Screen screen) {
 		int flip = 0;
-		if (dir == 0) {
+		/*
+		if (dir == Direction.UP) {
 			sprite = Sprite.player_forward;
 			if (walking) {
 				if (anim % 60 > 30) {
@@ -87,7 +133,7 @@ public class Player extends Mob {
 				}
 			}
 		}
-		if (dir == 1 || dir == 3) {
+		if (dir == Direction.LEFT || dir == Direction.RIGHT) {
 			sprite = Sprite.player_side;
 			if (walking) {
 				if (anim % 60 > 30) {
@@ -96,12 +142,12 @@ public class Player extends Mob {
 					sprite = Sprite.player_side_2;
 				}
 			}
-			if (dir == 3) {
+			if (dir == Direction.LEFT) {
 				flip = 1;
 			}
 		}
-		if (dir == 2) {
-			sprite = Sprite.player_back;
+		if (dir == Direction.DOWN) {
+			sprite = Sprite.player_back; 
 			if (walking) {
 				if (anim % 60 > 30) {
 					sprite = Sprite.player_back_1;
@@ -110,11 +156,13 @@ public class Player extends Mob {
 				}
 			}
 		}
+		*/
 		// int xx = x - Sprite.player.SIZE;
 		// int yy = y - Sprite.player.SIZE;
 		int xx = x;
 		int yy = y;
-		screen.renderPlayer(xx, yy, sprite, flip);
+		sprite = animSprite.getSprite();
+		screen.renderMob(xx, yy, sprite, flip);
 		// if (dir == 1) sprite = Sprite.player_right;
 		// if (dir == 3) sprite = Sprite.player_left;
 	}
