@@ -10,6 +10,7 @@ public abstract class Mob extends Entity {
 
 	protected boolean moving = false;
 	protected boolean walking = false;
+	protected int life = 5;
 
 	protected enum Direction {
 		UP, DOWN, LEFT, RIGHT
@@ -77,5 +78,12 @@ public abstract class Mob extends Entity {
 	}
 
 	public void render() {
+	}
+
+	public void hurt() {
+		this.life--;
+		if (this.life <= 0) {
+			remove();
+		}
 	}
 }

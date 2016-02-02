@@ -29,10 +29,10 @@ public class WizardProjectile extends Projectile {
 			level.setTile(Tile.grass, (int) (x + nx), (int) (y + ny), 8, 4, 4);
 			remove();
 		}
-		Mob mob = level.mobColided((int) (x + nx), (int) (y + ny));
-		if (mob instanceof Mob) {
+		Mob mob;
+		if ((mob = level.mobColided((int) x, (int) y)) instanceof Mob) {
 			level.add(new ParticleSpawner((int)x, (int)y, 64, 50, level));
-			mob.remove();
+			mob.hurt();
 			remove();
 		}
 		move();
