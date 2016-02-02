@@ -8,7 +8,6 @@ import com.dtrajko.java.game.graphics.Sprite;
 
 public abstract class Mob extends Entity {
 
-	protected Sprite sprite;
 	protected boolean moving = false;
 	protected boolean walking = false;
 

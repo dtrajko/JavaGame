@@ -54,7 +54,8 @@ public class Game extends Canvas implements Runnable {
 		level = Level.spawn;
 		TileCoordinate playerSpawn = new TileCoordinate(19, 62);
 		player = new Player(playerSpawn.x(), playerSpawn.y(), key);
-		player.init(level);
+		// player.init(level);
+		level.add(player);
 		// mob = new Dummy(25, 57);
 		// mob.init(level);
 		// level = new RandomLevel(64, 64);
@@ -124,7 +125,7 @@ public class Game extends Canvas implements Runnable {
 
 	public void update() {
 		key.update();
-		player.update();
+		// player.update();
 		// mob.update();
 		level.update();
 		/**
@@ -143,10 +144,10 @@ public class Game extends Canvas implements Runnable {
 		}
 
 		screen.clear();
-		int xScroll = player.x - screen.width / 2;
-		int yScroll = player.y - screen.height / 2;
+		int xScroll = player.getX() - screen.width / 2;
+		int yScroll = player.getY() - screen.height / 2;
 		level.render(xScroll, yScroll, screen);
-		player.render(screen);
+		// player.render(screen);
 		// mob.render(screen);
 		// screen.render(x, y);
 
@@ -169,7 +170,7 @@ public class Game extends Canvas implements Runnable {
 		g.setColor(Color.GREEN);
 		g.fillOval(Mouse.getX() - 16, Mouse.getY() - 16, 32, 32);
 		// g.setColor(Color.WHITE);
-		g.drawString("X: " + player.x + " | Y:" + player.y + " | mX: " + Mouse.getX() + " | mY: " + Mouse.getY() +
+		g.drawString("X: " + player.getX() + " | Y:" + player.getY() + " | mX: " + Mouse.getX() + " | mY: " + Mouse.getY() +
 			" | mB: " + Mouse.getButton(), 20, 660);
 		g.dispose();
 		bs.show();

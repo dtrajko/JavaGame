@@ -5,10 +5,15 @@ import java.util.List;
 import java.util.Random;
 
 import com.dtrajko.java.game.entity.Entity;
+import com.dtrajko.java.game.entity.mob.Mob;
+import com.dtrajko.java.game.entity.mob.Player;
 import com.dtrajko.java.game.entity.particle.Particle;
 import com.dtrajko.java.game.entity.projectile.Projectile;
 import com.dtrajko.java.game.graphics.Screen;
+import com.dtrajko.java.game.level.tile.GrassTile;
 import com.dtrajko.java.game.level.tile.Tile;
+import com.dtrajko.java.game.level.tile.WallTile;
+import com.dtrajko.java.game.level.tile.WaterTile;
 
 public class Level {
 
@@ -20,7 +25,7 @@ public class Level {
 	private List<Entity> entities = new ArrayList<Entity>();
 	private List<Projectile> projectiles = new ArrayList<Projectile>();
 	private List<Particle> particles = new ArrayList<Particle>();
-	public List<Entity> topLayer = new ArrayList<Entity>();
+	private List<Player> players = new ArrayList<Player>();
 
 	public static Level spawn = new SpawnLevel("/levels/level_01.png");
 
@@ -38,7 +43,7 @@ public class Level {
 		generateLevel();
 	}
 
-	protected void generateLevel() {
+	public void generateLevel() {
 	}
 
 	protected void loadLevel(String path) {
@@ -53,6 +58,9 @@ public class Level {
 		}
 		for (int i = 0; i < particles.size(); i++) {
 			particles.get(i).update();
+		}
+		for (int i = 0; i < players.size(); i++) {
+			players.get(i).update();
 		}
 		remove();
 	}
@@ -73,6 +81,11 @@ public class Level {
 				particles.remove(i);
 			}
 		}
+		for (int i = 0; i < players.size(); i++) {
+			if (players.get(i).isRemoved()) {
+				players.remove(i);
+			}
+		}
 	}
 
 	public List<Projectile> getProjectiles() {
@@ -87,6 +100,17 @@ public class Level {
 			if (getTile(xt, yt).solid()) solid = true;
 		}
 		return solid;
+	}
+
+	public Mob mobColided(int x, int y) {
+		for (int i = 0; i < entities.size(); i++) {
+			if (Math.abs(entities.get(i).getX() - x) < 20 && Math.abs(entities.get(i).getY() - y) < 20) {
+				if (entities.get(i) instanceof Mob) {
+					return (Mob) entities.get(i);					
+				}
+			}
+		}
+		return null;
 	}
 
 	public void render(int xScroll, int yScroll, Screen screen) {
@@ -109,6 +133,9 @@ public class Level {
 		for (int i = 0; i < particles.size(); i++) {
 			particles.get(i).render(screen);
 		}
+		for (int i = 0; i < players.size(); i++) {
+			players.get(i).render(screen);
+		}
 	}
 
 	public void add(Entity e) {
@@ -117,9 +144,23 @@ public class Level {
 			particles.add((Particle) e);
 		} else if (e instanceof Projectile) {
 			projectiles.add((Projectile) e);
+		} else if (e instanceof Player) {
+			players.add((Player) e);
 		} else {
 			entities.add(e);			
 		}
+	}
+
+	public List<Player> getPlayers() {
+		return this.players;
+	}
+
+	public Player getPlayerAt(int index) {
+		return players.get(index);
+	}
+
+	public Player getClientPlayer() {
+		return players.get(0);
 	}
 
 	public void addProjectile(Projectile p) {
@@ -137,6 +178,22 @@ public class Level {
 			return Tile.water;
 		} else {
 			return Tile.water;
+		}
+	}
+
+	public void setTile(Tile tile, int x, int y, int size, int xOffset, int yOffset) {
+		for (int c = 0; c < 4; c++) {
+			int xt = (x - c % 2 * size + xOffset) >> 4;
+			int yt = (y - c / 2 * size + yOffset) >> 4;
+		    if (xt >= 0 && xt < width && yt >= 0 && yt < height) {
+				if (tile instanceof GrassTile) {
+					tiles[xt + yt * width] = 0xff00ff00;
+				} else if (tile instanceof WallTile) {
+					tiles[xt + yt * width] = 0xffffff00;
+				} else if (tile instanceof WaterTile) {
+					tiles[xt + yt * width] = 0xff0000ff;
+				}
+		    } 
 		}
 	}
 }

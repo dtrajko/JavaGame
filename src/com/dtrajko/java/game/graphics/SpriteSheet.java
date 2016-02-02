@@ -27,6 +27,12 @@ public class SpriteSheet {
 	public static SpriteSheet mob_down  = new SpriteSheet(mob, 2, 0, 1, 3, 32);
 	public static SpriteSheet mob_left  = new SpriteSheet(mob, 3, 0, 1, 3, 32);
 
+	public static SpriteSheet skeleton = new SpriteSheet("/textures/skeleton_mob_sprite.png", 128, 96);
+	public static SpriteSheet skeleton_up    = new SpriteSheet(skeleton, 0, 0, 1, 3, 32);
+	public static SpriteSheet skeleton_right = new SpriteSheet(skeleton, 1, 0, 1, 3, 32);
+	public static SpriteSheet skeleton_down  = new SpriteSheet(skeleton, 2, 0, 1, 3, 32);
+	public static SpriteSheet skeleton_left  = new SpriteSheet(skeleton, 3, 0, 1, 3, 32);
+
 	private Sprite[] sprites;
 
 	public SpriteSheet(SpriteSheet sheet, int x, int y, int width, int height, int spriteSize) {
@@ -81,7 +87,7 @@ public class SpriteSheet {
 	}
 	
 	public Sprite[] getSprites() {
-		System.out.println("SpriteSheet.getSprites().length: " + sprites.length);
+		// System.out.println("SpriteSheet.getSprites().length: " + sprites.length);
 		return sprites;
 	}
 

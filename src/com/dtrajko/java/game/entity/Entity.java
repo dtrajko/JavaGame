@@ -11,8 +11,8 @@ import com.dtrajko.java.game.level.Level;
  */
 public abstract class Entity {
 
-	public int x, y;
-	private Sprite sprite;
+	protected int x, y;
+	protected Sprite sprite;
 	private boolean removed = false;
 	protected Level level;
 	protected final Random random = new Random();
@@ -39,6 +39,14 @@ public abstract class Entity {
 			screen.renderSprite(x, y, sprite, true);
 		}
 	}
+	
+	public int getX() {
+		return this.x;
+	}
+
+	public int getY() {
+		return this.y;
+	}
 
 	public void remove() {
 		// Remove from level
@@ -47,5 +55,9 @@ public abstract class Entity {
 
 	public boolean isRemoved() {
 		return removed;
+	}
+	
+	public Sprite getSprite() {
+		return sprite;
 	}
 }

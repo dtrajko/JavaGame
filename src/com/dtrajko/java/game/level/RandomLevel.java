@@ -10,7 +10,7 @@ public class RandomLevel extends Level {
 		super(width, height);
 	}
 
-	protected void generateLevel() {
+	public void generateLevel() {
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
 				tiles[x + y * width] = random.nextInt(12);

@@ -39,7 +39,7 @@ public class Dummy extends Mob {
 	public Dummy(int x, int y) {
 		this.x = x << 4;
 		this.y = y << 4;
-		sprite = Sprite.dummy;
+		sprite = Sprite.zombie;
 	}
 
 	public void update() {

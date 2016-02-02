@@ -48,7 +48,8 @@ public class Sprite {
 	public static Sprite player_back_2    = new Sprite(32, 2, 2, SpriteSheet.player);
 	public static Sprite player_side_2    = new Sprite(32, 1, 2, SpriteSheet.player);
 	
-	public static Sprite dummy = new Sprite(32, 2, 0, SpriteSheet.mob_down);
+	public static Sprite zombie = new Sprite(32, 2, 0, SpriteSheet.mob_down);
+	public static Sprite skeleton = new Sprite(32, 2, 0, SpriteSheet.skeleton_down);
 
 	public static Sprite particle_normal  = new Sprite(3, 0xffd100);
 

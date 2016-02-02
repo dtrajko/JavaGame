@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import com.dtrajko.java.game.entity.mob.Chaser;
 import com.dtrajko.java.game.entity.mob.Dummy;
 import com.dtrajko.java.game.graphics.Sprite;
 
@@ -34,7 +35,11 @@ public class SpawnLevel extends Level {
 		for (int i = 0; i < 20; i++) {
 			int coordX = random.nextInt(64);
 			int coordY = random.nextInt(64);
-			add(new Dummy(coordX, coordY));
+			if (i % 2 == 0) {
+				add(new Chaser(coordX, coordY));
+			} else {
+				add(new Dummy(coordX, coordY));
+			}
 		}
 	}
 
@@ -44,7 +49,7 @@ public class SpawnLevel extends Level {
 	// GrassTile = 00ff00
 	// WallTile = ffff00
 	// WaterTile = 0000ff
-	protected void generateLevel() {
+	public void generateLevel() {
 		for (int y = 0; y < 64; y++) {
 			for (int x = 0; x < 64; x++) {
 				getTile(x, y);

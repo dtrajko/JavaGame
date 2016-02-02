@@ -2,9 +2,12 @@ package com.dtrajko.java.game.entity.projectile;
 
 import com.dtrajko.java.game.entity.spawner.ParticleSpawner;
 import com.dtrajko.java.game.entity.spawner.Spawner;
+import com.dtrajko.java.game.entity.Entity;
+import com.dtrajko.java.game.entity.mob.Mob;
 import com.dtrajko.java.game.entity.particle.Particle;
 import com.dtrajko.java.game.graphics.Screen;
 import com.dtrajko.java.game.graphics.Sprite;
+import com.dtrajko.java.game.level.tile.Tile;
 
 public class WizardProjectile extends Projectile {
 	
@@ -23,6 +26,13 @@ public class WizardProjectile extends Projectile {
 	public void update() {
 		if (level.tileCollision((int) (x + nx), (int) (y + ny), 8, 4, 4)) {
 			level.add(new ParticleSpawner((int)x, (int)y, 64, 50, level));
+			level.setTile(Tile.grass, (int) (x + nx), (int) (y + ny), 8, 4, 4);
+			remove();
+		}
+		Mob mob = level.mobColided((int) (x + nx), (int) (y + ny));
+		if (mob instanceof Mob) {
+			level.add(new ParticleSpawner((int)x, (int)y, 64, 50, level));
+			mob.remove();
 			remove();
 		}
 		move();
