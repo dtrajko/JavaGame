@@ -7,7 +7,8 @@ public class Tile {
 
 	public int x, y;
 	public Sprite sprite;
-	
+	public static int SIZE = 16;
+
 	public static Tile grass = new GrassTile(Sprite.grass);
 	public static Tile water = new WaterTile(Sprite.water);
 	public static Tile wall = new WallTile(Sprite.wall);
