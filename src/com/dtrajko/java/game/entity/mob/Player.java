@@ -1,6 +1,9 @@
 package com.dtrajko.java.game.entity.mob;
 
+import java.util.List;
+
 import com.dtrajko.java.game.Game;
+import com.dtrajko.java.game.entity.Entity;
 import com.dtrajko.java.game.entity.projectile.Projectile;
 import com.dtrajko.java.game.entity.projectile.WizardProjectile;
 import com.dtrajko.java.game.graphics.AnimatedSprite;
@@ -48,6 +51,13 @@ public class Player extends Mob {
 	}
 
 	public void update() {
+		/**
+		List<Entity> es = level.getEntities(this, 80);
+		System.out.println("Entities nearby: " + es.size());
+		for (Entity e : es) {
+			System.out.println(e);
+		}
+		*/
 		if (walking) {
 			animSprite.update();			
 		} else {

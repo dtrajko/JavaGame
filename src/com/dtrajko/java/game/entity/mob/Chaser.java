@@ -1,5 +1,7 @@
 package com.dtrajko.java.game.entity.mob;
 
+import java.util.List;
+
 import com.dtrajko.java.game.entity.mob.Mob.Direction;
 import com.dtrajko.java.game.graphics.AnimatedSprite;
 import com.dtrajko.java.game.graphics.Screen;
@@ -15,6 +17,7 @@ public class Chaser extends Mob {
 
 	private AnimatedSprite animSprite = down;
 
+	private int time;
 	private int xa = 0;
 	private int ya = 0;
 
@@ -26,19 +29,24 @@ public class Chaser extends Mob {
 	}
 
 	public void move() {
-		xa = 0;
-		ya = 0;
-		Player player = level.getClientPlayer();
-		if (x < player.getX()) xa++;
-		if (x > player.getX()) xa--;
-		if (y < player.getY()) ya++;
-		if (y > player.getY()) ya--;
-
-		if (xa != 0 || ya != 0) {
-			move(xa, ya);
-			walking = true;
-		} else {
-			walking = false;
+		time++;
+		List<Player> players = level.getPlayers(this, 100);
+		if (players.size() > 0) {
+			Player player = players.get(0);
+			// Player player = level.getClientPlayer();
+			xa = 0;
+			ya = 0;
+			if (x < player.getX()) xa++;
+			if (x > player.getX()) xa--;
+			if (y < player.getY()) ya++;
+			if (y > player.getY()) ya--;
+		} else if (time % (random.nextInt(50) + 30) == 0) {
+			xa = random.nextInt(3) - 1;
+			ya = random.nextInt(3) - 1;
+			if (random.nextInt(2) == 0) {
+				xa = 0;
+				ya = 0;
+			}
 		}
 	}
 
@@ -62,6 +70,12 @@ public class Chaser extends Mob {
 		} else if (xa > 0) {
 			dir = Direction.RIGHT;
 			animSprite = right;
+		}
+		if (xa != 0 || ya != 0) {
+			move(xa, ya);
+			walking = true;
+		} else {
+			walking = false;
 		}
 	}
 	
