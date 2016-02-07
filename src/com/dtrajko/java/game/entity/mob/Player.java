@@ -67,7 +67,7 @@ public class Player extends Mob {
 		double xa = 0, ya = 0;
 		// double speed = 2;
 		speed = (this.input.sprint) ? 5 : 2;
-		System.out.println("Current speed: " + speed);
+		// System.out.println("Current speed: " + speed);
 		if (anim < 8600) anim++;
 		else anim = 0;
 		if (input.up) {
@@ -169,8 +169,8 @@ public class Player extends Mob {
 		*/
 		// int xx = x - Sprite.player.SIZE;
 		// int yy = y - Sprite.player.SIZE;
-		int xx = x;
-		int yy = y;
+		int xx = (int) x;
+		int yy = (int) y;
 		sprite = animSprite.getSprite();
 		screen.renderMob(xx, yy, sprite, flip);
 		// if (dir == 1) sprite = Sprite.player_right;

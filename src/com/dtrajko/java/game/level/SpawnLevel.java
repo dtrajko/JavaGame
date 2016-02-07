@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 
 import com.dtrajko.java.game.entity.mob.Chaser;
 import com.dtrajko.java.game.entity.mob.Dummy;
+import com.dtrajko.java.game.entity.mob.Star;
 import com.dtrajko.java.game.graphics.Sprite;
 
 public class SpawnLevel extends Level {
@@ -32,6 +33,7 @@ public class SpawnLevel extends Level {
 		}
 		// add(new Dummy(25, 57));
 		// add(new Dummy(38, 57));
+		// add(new Star(10, 62));
 		for (int i = 0; i < 20; i++) {
 			int coordX = random.nextInt(64);
 			int coordY = random.nextInt(64);

@@ -83,6 +83,6 @@ public class Dummy extends Mob {
 	public void render(Screen screen) {
 		int flip = 0;
 		sprite = animSprite.getSprite();
-		screen.renderMob(x, y, sprite, flip);
+		screen.renderMob((int) x, (int) y, sprite, flip);
 	}
 }
