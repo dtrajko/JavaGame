@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 
 import com.dtrajko.java.game.entity.mob.Chaser;
 import com.dtrajko.java.game.entity.mob.Dummy;
+import com.dtrajko.java.game.entity.mob.Shooter;
 import com.dtrajko.java.game.entity.mob.Star;
 import com.dtrajko.java.game.graphics.Sprite;
 
@@ -43,6 +44,7 @@ public class SpawnLevel extends Level {
 				add(new Dummy(coordX, coordY));
 			}
 		}
+		add(new Shooter(12, 62));
 	}
 
 	// Grass  = 0xFF0000

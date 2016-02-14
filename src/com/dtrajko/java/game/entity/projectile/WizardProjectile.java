@@ -12,6 +12,7 @@ import com.dtrajko.java.game.level.tile.Tile;
 public class WizardProjectile extends Projectile {
 	
 	public static final int FIRE_RATE = 10; // Higher is slower!
+	private Mob shooter;
 
 	public WizardProjectile(int x, int y, double dir) {
 		super(x, y, dir);
@@ -23,6 +24,11 @@ public class WizardProjectile extends Projectile {
 		ny = speed * Math.sin(angle);
 	}
 
+	public WizardProjectile(int x, int y, double dir, Mob shooter) {
+		this(x, y, dir);
+		this.shooter = shooter;
+	}
+
 	public void update() {
 		if (level.tileCollision((int) (x + nx), (int) (y + ny), 8, 4, 4)) {
 			level.add(new ParticleSpawner((int)x, (int)y, 64, 50, level));
@@ -31,9 +37,11 @@ public class WizardProjectile extends Projectile {
 		}
 		Mob mob;
 		if ((mob = level.mobColided((int) x, (int) y)) instanceof Mob) {
-			level.add(new ParticleSpawner((int)x, (int)y, 64, 50, level));
-			mob.hurt();
-			remove();
+			if (mob != this.shooter) {
+				level.add(new ParticleSpawner((int)x, (int)y, 64, 50, level));
+				mob.hurt();
+				remove();
+			}
 		}
 		move();
 	}
