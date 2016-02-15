@@ -7,6 +7,7 @@ import com.dtrajko.java.game.graphics.AnimatedSprite;
 import com.dtrajko.java.game.graphics.Screen;
 import com.dtrajko.java.game.graphics.Sprite;
 import com.dtrajko.java.game.graphics.SpriteSheet;
+import com.dtrajko.java.game.util.Debug;
 import com.dtrajko.java.game.util.Vector2i;
 
 public class Shooter extends Mob {

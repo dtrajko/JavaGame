@@ -12,6 +12,7 @@ import com.dtrajko.java.game.graphics.Sprite;
 import com.dtrajko.java.game.graphics.SpriteSheet;
 import com.dtrajko.java.game.input.Keyboard;
 import com.dtrajko.java.game.input.Mouse;
+import com.dtrajko.java.game.util.Debug;
 
 public class Player extends Mob {
 
@@ -132,48 +133,11 @@ public class Player extends Mob {
 
 	public void render(Screen screen) {
 		int flip = 0;
-		/*
-		if (dir == Direction.UP) {
-			sprite = Sprite.player_forward;
-			if (walking) {
-				if (anim % 60 > 30) {
-					sprite = Sprite.player_forward_1;
-				} else {
-					sprite = Sprite.player_forward_2;
-				}
-			}
-		}
-		if (dir == Direction.LEFT || dir == Direction.RIGHT) {
-			sprite = Sprite.player_side;
-			if (walking) {
-				if (anim % 60 > 30) {
-					sprite = Sprite.player_side_1;
-				} else {
-					sprite = Sprite.player_side_2;
-				}
-			}
-			if (dir == Direction.LEFT) {
-				flip = 1;
-			}
-		}
-		if (dir == Direction.DOWN) {
-			sprite = Sprite.player_back; 
-			if (walking) {
-				if (anim % 60 > 30) {
-					sprite = Sprite.player_back_1;
-				} else {
-					sprite = Sprite.player_back_2;
-				}
-			}
-		}
-		*/
-		// int xx = x - Sprite.player.SIZE;
-		// int yy = y - Sprite.player.SIZE;
 		int xx = (int) x;
 		int yy = (int) y;
 		sprite = animSprite.getSprite();
 		screen.renderMob(xx, yy, sprite, flip);
-		// if (dir == 1) sprite = Sprite.player_right;
-		// if (dir == 3) sprite = Sprite.player_left;
+		Debug.drawRect(screen, 20, 20, 100, 40, 0xff0000, false);
+		Debug.drawRect(screen, 20, 20, 100, 40, 0xff0000, true);
 	}
 }
