@@ -177,6 +177,7 @@ public class Level {
 		int ey = (int) e.getY();
 		for (int i = 0; i < entities.size(); i++) {
 			Entity entity = entities.get(i);
+			if (entity.equals(e)) continue;
 			int x = (int) entity.getX();
 			int y = (int) entity.getY();
 			int dx = Math.abs(x - ex);
@@ -184,6 +185,17 @@ public class Level {
 			double distance = Math.sqrt(dx * dx + dy * dy);
 			if (distance <= radius) {
 				result.add(entity);
+			}
+		}
+		return result;
+	}
+
+	public List<Mob> getMobs(Entity e, int radius) {
+		List<Mob> result = new ArrayList<Mob>();
+		List<Entity> es = getEntities(e, radius);
+		for (int i = 0; i < es.size(); i++) {
+			if (es.get(i) instanceof Mob) {
+				result.add((Mob) es.get(i));
 			}
 		}
 		return result;
