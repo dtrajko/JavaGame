@@ -4,7 +4,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 // import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
+// import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import com.dtrajko.java.game.entity.mob.Dummy;
 import com.dtrajko.java.game.entity.mob.Mob;
 import com.dtrajko.java.game.entity.mob.Player;
+import com.dtrajko.java.game.graphics.Font;
 import com.dtrajko.java.game.graphics.Screen;
 import com.dtrajko.java.game.input.Keyboard;
 import com.dtrajko.java.game.input.Mouse;
@@ -38,6 +39,7 @@ public class Game extends Canvas implements Runnable {
 	private boolean running = false;
 
 	private Screen screen;
+	private Font font;
 
 	private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
@@ -56,6 +58,7 @@ public class Game extends Canvas implements Runnable {
 		player = new Player(playerSpawn.x(), playerSpawn.y(), key);
 		// player.init(level);
 		level.add(player);
+		font = new Font();
 		// mob = new Dummy(25, 57);
 		// mob.init(level);
 		// level = new RandomLevel(64, 64);
@@ -147,6 +150,7 @@ public class Game extends Canvas implements Runnable {
 		double xScroll = player.getX() - screen.width / 2;
 		double yScroll = player.getY() - screen.height / 2;
 		level.render((int) xScroll, (int) yScroll, screen);
+		font.render("AB(ab)de,fghijklmpqrtuwxy", screen);
 		// player.render(screen);
 		// mob.render(screen);
 		// screen.render(x, y);
@@ -164,14 +168,17 @@ public class Game extends Canvas implements Runnable {
 		// work with Graphics
 		// g.setColor(Color.BLACK);
 		// g.fillRect(0, 0, getWidth(), getHeight());
-		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
-		g.setFont(new Font("Verdana", Font.BOLD, 24));
 		// g.fillRect(Mouse.getX() - 16, Mouse.getY() - 16, 32, 32);
-		g.setColor(Color.GREEN);
 		g.fillOval(Mouse.getX() - 16, Mouse.getY() - 16, 32, 32);
+		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+
+		/*
+		g.setFont(new Font("Verdana", Font.BOLD, 24));
+		g.setColor(Color.GREEN);
 		// g.setColor(Color.WHITE);
 		g.drawString("X: " + player.getX() + " | Y:" + player.getY() + " | mX: " + Mouse.getX() + " | mY: " + Mouse.getY() +
 			" | mB: " + Mouse.getButton(), 20, 660);
+		*/
 		g.dispose();
 		bs.show();
 	}

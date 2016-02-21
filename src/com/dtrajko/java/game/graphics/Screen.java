@@ -14,6 +14,7 @@ public class Screen {
 	public int xOffset, yOffset;
 	public int[] tiles = new int[MAP_SIZE * MAP_SIZE];
 	private Random random = new Random();
+	private final int ALPHA_COLOR = 0xffff00ff;
 
 	public Screen(int width, int height) {
 		this.width = width;
@@ -37,12 +38,12 @@ public class Screen {
 			xp -= xOffset;
 			yp -= yOffset;
 		}
-		for (int y = 0; y < sheet.HEIGHT; y++) {
+		for (int y = 0; y < sheet.SPRITE_HEIGHT; y++) {
 			int ya = y + yp;
-			for (int x = 0; x < sheet.WIDTH; x++) {
+			for (int x = 0; x < sheet.SPRITE_WIDTH; x++) {
 				int xa = x + xp;
 				if (xa < 0 || xa >= width || ya < 0 || ya >= height) continue; 
-				pixels[xa + ya * width] = sheet.pixels[x + y * sheet.WIDTH];
+				pixels[xa + ya * width] = sheet.pixels[x + y * sheet.SPRITE_WIDTH];
 			}
 		}
 	}
@@ -57,7 +58,10 @@ public class Screen {
 			for (int x = 0; x < sprite.getWidth(); x++) {
 				int xa = x + xp;
 				if (xa < 0 || xa >= width || ya < 0 || ya >= height) continue; 
-				pixels[xa + ya * width] = sprite.pixels[x + y * sprite.getWidth()];
+				int color = sprite.pixels[x + y * sprite.getWidth()];
+				if (color != ALPHA_COLOR) {
+					pixels[xa + ya * width] = color;
+				}
 			}
 		}
 	}
@@ -72,7 +76,7 @@ public class Screen {
 				if (xa < -sprite.SIZE || xa >= width || ya < 0 || ya >= height) break;
 				if (xa < 0) xa = 0;
 				int col = sprite.pixels[x + y * sprite.SIZE];
-				if (col != 0xffff00ff) {
+				if (col != ALPHA_COLOR) {
 					pixels[xa + ya * width] = sprite.pixels[x + y * sprite.SIZE];
 				}
 			}
@@ -91,7 +95,7 @@ public class Screen {
 				if (xa < -32 || xa >= width || ya < 0 || ya >= height) break;
 				if (xa < 0) xa = 0;
 				int col = mob.getSprite().pixels[xs + ys * 32];
-				if (col != 0xffff00ff) pixels[xa + ya * width] = col;
+				if (col != ALPHA_COLOR) pixels[xa + ya * width] = col;
 			}
 		}
 	}
@@ -114,7 +118,7 @@ public class Screen {
 				if (xa < -(sprite.getWidth()) || xa >= width || ya < 0 || ya >= height) break;
 				if (xa < 0) xa = 0;
 				int col = sprite.pixels[xs + ys * sprite.getWidth()];
-				if (col != 0xffff00ff) pixels[xa + ya * width] = col;
+				if (col != ALPHA_COLOR) pixels[xa + ya * width] = col;
 			}
 		}
 	}
@@ -134,7 +138,7 @@ public class Screen {
 				if (xa < -p.getSpriteSize() || xa >= width || ya < 0 || ya >= height) break;
 				if (xa < 0) xa = 0;
 				int col = p.getSprite().pixels[x + y * p.getSpriteSize()];
-				if (col != 0xffff00ff) {
+				if (col != ALPHA_COLOR) {
 					pixels[xa + ya * width] = p.getSprite().pixels[x + y * p.getSpriteSize()];
 				}
 			}
