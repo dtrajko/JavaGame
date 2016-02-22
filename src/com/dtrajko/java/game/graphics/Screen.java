@@ -163,6 +163,26 @@ public class Screen {
 		}
 	}
 
+	/*
+	public void renderProjectile(double xp, double yp, Projectile p, double angle) {
+		xp -= (double) xOffset;
+		yp -= (double) yOffset;
+		for (int y = 0; y < p.getSpriteSize(); y++) {
+			int ya = y + (int) yp;
+			for (int x = 0; x < p.getSpriteSize(); x++) {
+				int xa = x + (int) xp;
+				if (xa < -p.getSpriteSize() || xa >= width || ya < 0 || ya >= height) break;
+				if (xa < 0) xa = 0;
+				int[] rpixels = Sprite.rotate(p.getSprite().pixels, p.getSpriteSize(), p.getSpriteSize(), angle);
+				int col = rpixels[x + y * p.getSpriteSize()];
+				if (col != ALPHA_COLOR) {
+					pixels[xa + ya * width] = p.getSprite().pixels[x + y * p.getSpriteSize()];
+				}
+			}
+		}
+	}
+	*/
+
 	public void drawRect(int xp, int yp, int width, int height, int color, boolean fixed) {
 		if (fixed) {
 			xp -= xOffset;

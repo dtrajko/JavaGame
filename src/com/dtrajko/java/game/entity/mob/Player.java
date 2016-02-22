@@ -137,7 +137,7 @@ public class Player extends Mob {
 		int yy = (int) y;
 		sprite = animSprite.getSprite();
 		screen.renderMob(xx, yy, sprite, flip);
-		Debug.drawRect(screen, 20, 20, 100, 40, 0xff0000, false);
-		Debug.drawRect(screen, 20, 20, 100, 40, 0xff0000, true);
+		// Debug.drawRect(screen, 20, 20, 100, 40, 0xff0000, false);
+		// Debug.drawRect(screen, 20, 20, 100, 40, 0xff0000, true);
 	}
 }

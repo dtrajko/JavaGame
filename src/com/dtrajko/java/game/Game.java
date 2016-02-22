@@ -150,7 +150,7 @@ public class Game extends Canvas implements Runnable {
 		double xScroll = player.getX() - screen.width / 2;
 		double yScroll = player.getY() - screen.height / 2;
 		level.render((int) xScroll, (int) yScroll, screen);
-		font.render(20, 40, -2, 0x880000, "AB(ab)de,fgh\nijklmpqrtuwxy", screen);
+		// font.render(20, 40, -2, 0x880000, "AB(ab)de,fgh\nijklmpqrtuwxy", screen);
 		// player.render(screen);
 		// mob.render(screen);
 		// screen.render(x, y);

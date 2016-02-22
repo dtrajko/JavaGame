@@ -3,6 +3,8 @@ import java.util.Collections;
 import java.util.List;
 
 import com.dtrajko.java.game.entity.Entity;
+import com.dtrajko.java.game.entity.projectile.Projectile;
+import com.dtrajko.java.game.entity.projectile.WizardProjectile;
 import com.dtrajko.java.game.graphics.AnimatedSprite;
 import com.dtrajko.java.game.graphics.Screen;
 import com.dtrajko.java.game.graphics.Sprite;
@@ -88,6 +90,13 @@ public class Shooter extends Mob {
 		double dy = closest.getY() - y;
 		double dir = Math.atan2(dy, dx);
 		shoot(x, y, dir);
+	}
+
+	protected void shoot(double x, double y, double dir) {
+		if (time % 50 == 0) {
+			Projectile p = new WizardProjectile((int) x + 8, (int) y + 8, dir, this, Sprite.pickaxe);
+			level.add(p);
+		}
 	}
 
 	public void update() {

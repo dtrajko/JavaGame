@@ -8,12 +8,15 @@ public class Sprite {
 	public int[] pixels;
 	protected SpriteSheet sheet;
 
-	public static Sprite grass  = new Sprite(16, 0, 0, SpriteSheet.tiles);
-	public static Sprite water  = new Sprite(16, 0, 1, SpriteSheet.tiles);
-	public static Sprite wall   = new Sprite(16, 0, 2, SpriteSheet.tiles);
-	public static Sprite bush   = new Sprite(16, 1, 0, SpriteSheet.tiles);
-	public static Sprite rock   = new Sprite(16, 1, 1, SpriteSheet.tiles);
-	public static Sprite bullet = new Sprite(16, 0, 3, SpriteSheet.tiles);
+	public static Sprite grass   = new Sprite(16, 0, 0, SpriteSheet.tiles);
+	public static Sprite water   = new Sprite(16, 0, 1, SpriteSheet.tiles);
+	public static Sprite wall    = new Sprite(16, 0, 2, SpriteSheet.tiles);
+	public static Sprite bush    = new Sprite(16, 1, 0, SpriteSheet.tiles);
+	public static Sprite rock    = new Sprite(16, 1, 1, SpriteSheet.tiles);
+	public static Sprite bullet  = new Sprite(16, 0, 3, SpriteSheet.tiles);
+	public static Sprite pickaxe = new Sprite(16, 1, 3, SpriteSheet.tiles);
+	public static Sprite sword   = new Sprite(16, 0, 4, SpriteSheet.tiles);
+	
 
 	//Spawn Level Sprites:
 	/*
@@ -77,7 +80,7 @@ public class Sprite {
 		this.width = width;
 		this.height = height;
 		pixels = new int[width * height];
-		setColour(colour);
+		setColor(colour);
 	}
 
 	public Sprite(int size, int colour) {
@@ -86,7 +89,7 @@ public class Sprite {
 		this.width = size;
 		this.height = size;
 		pixels = new int[SIZE * SIZE];
-		setColour(colour);
+		setColor(colour);
 	}
 	
 	public Sprite(int[] pixels, int width, int height) {
@@ -99,6 +102,51 @@ public class Sprite {
 		for (int i = 0; i < pixels.length; i++) {
 			this.pixels[i] = pixels[i];
 		}
+	}
+
+	public static Sprite rotate(Sprite sprite, double angle) {
+		return new Sprite(rotate(sprite.pixels, sprite.width, sprite.height, angle), sprite.width, sprite.height);
+	}
+
+	private static int[] rotate(int[] pixels, int width, int height, double angle) {
+		int[] result = new int[width * height];
+		double nx_x = rotateX(-angle, 1.0, 0.0);
+		double nx_y = rotateY(-angle, 1.0, 0.0);
+		double ny_x = rotateX(-angle, 0.0, 1.0);
+		double ny_y = rotateY(-angle, 0.0, 1.0);
+
+		double x0 = rotateX(-angle, -width / 2.0, -height / 2.0) + width / 2.0;
+		double y0 = rotateY(-angle, -width / 2.0, -height / 2.0) + height / 2.0;
+
+		for (int y = 0; y < height; y++) {
+			double x1 = x0;
+			double y1 = y0;
+			for (int x = 0; x < width; x++) {
+				int xx = (int) x1;
+				int yy = (int) y1;
+				int col = 0;
+				if (xx < 0 || xx >= width || yy < 0 || yy >= height) col = 0xffff00ff;
+				else col = pixels[xx + yy * width];
+				result[x + y * width] = col;
+				x1 += nx_x;
+				y1 += nx_y;
+			}
+			x0 += ny_x;
+			y0 += ny_y;
+		}
+		return result;
+	}
+
+	private static double rotateX(double angle, double x, double y) {
+		double cos = Math.cos(angle);
+		double sin = Math.sin(angle);
+		return x * cos + y * -sin;
+	}
+
+	private static double rotateY(double angle, double x, double y) {
+		double cos = Math.cos(angle);
+		double sin = Math.sin(angle);
+		return x * sin + y * cos;
 	}
 
 	public static Sprite[] split(SpriteSheet sheet) {
@@ -121,7 +169,7 @@ public class Sprite {
 		return sprites;
 	}
 
-	private void setColour(int colour) {
+	private void setColor(int colour) {
 		for (int i = 0; i < width * height; i++) {
 			pixels[i] = colour;
 		} 

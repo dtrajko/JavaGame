@@ -93,7 +93,7 @@ public abstract class Mob extends Entity {
 	protected void shoot(double x, double y, double dir) {
 		// dir *=180 / Math.PI;
 		// System.out.println("Angle: " + Math.round(dir));
-		Projectile p = new WizardProjectile((int) x + 8, (int) y + 8, dir, this);
+		Projectile p = new WizardProjectile((int) x + 8, (int) y + 8, dir);
 		// level.addProjectile(p);
 		level.add(p);
 	}

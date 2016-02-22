@@ -13,20 +13,29 @@ public class WizardProjectile extends Projectile {
 	
 	public static final int FIRE_RATE = 10; // Higher is slower!
 	private Mob shooter;
+	private int time = 0;
 
 	public WizardProjectile(int x, int y, double dir) {
 		super(x, y, dir);
 		range = 500;
 		speed = 4;
 		damage = 20;
-		sprite = Sprite.bullet;
+
+		sprite = Sprite.sword;
+		/**
+		double round_angle = angle;
+		// TODO: round to PI/2
+		sprite = Sprite.rotate(Sprite.sword, round_angle);
+		System.out.println("ROUND ANGLE: " + round_angle);
+		*/
 		nx = speed * Math.cos(angle);
 		ny = speed * Math.sin(angle);
 	}
 
-	public WizardProjectile(int x, int y, double dir, Mob shooter) {
+	public WizardProjectile(int x, int y, double dir, Mob shooter, Sprite sprite) {
 		this(x, y, dir);
 		this.shooter = shooter;
+		this.sprite = sprite;
 	}
 
 	public void update() {
