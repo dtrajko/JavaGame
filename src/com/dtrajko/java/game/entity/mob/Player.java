@@ -10,9 +10,13 @@ import com.dtrajko.java.game.graphics.AnimatedSprite;
 import com.dtrajko.java.game.graphics.Screen;
 import com.dtrajko.java.game.graphics.Sprite;
 import com.dtrajko.java.game.graphics.SpriteSheet;
+import com.dtrajko.java.game.graphics.ui.UILabel;
+import com.dtrajko.java.game.graphics.ui.UIManager;
+import com.dtrajko.java.game.graphics.ui.UIPanel;
 import com.dtrajko.java.game.input.Keyboard;
 import com.dtrajko.java.game.input.Mouse;
 import com.dtrajko.java.game.util.Debug;
+import com.dtrajko.java.game.util.Vector2i;
 
 public class Player extends Mob {
 
@@ -26,10 +30,9 @@ public class Player extends Mob {
 	private AnimatedSprite up    = new AnimatedSprite(SpriteSheet.player_anim_up, 32, 32, 3);
 	private AnimatedSprite left  = new AnimatedSprite(SpriteSheet.player_anim_left, 32, 32, 3);
 	private AnimatedSprite right = new AnimatedSprite(SpriteSheet.player_anim_right, 32, 32, 3);
-	
 	private AnimatedSprite animSprite = down;
-	
 	private double speed = 2;
+	private UIManager ui;
 
 	public Player(Keyboard input) {
 		this.input = input;
@@ -47,6 +50,11 @@ public class Player extends Mob {
 		input.down = true;
 		sprite = Sprite.player_forward;
 		fireRate = WizardProjectile.FIRE_RATE;
+
+		ui = Game.getUIManager();
+		UIPanel panel = new UIPanel(new Vector2i(300, 0));
+		ui.addPanel(panel);
+		panel.addComponent(new UILabel(new Vector2i(10, 10), "Hello!"));
 		// animSprite = down;
 		// update();
 	}

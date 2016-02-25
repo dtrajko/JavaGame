@@ -60,7 +60,7 @@ public class Sprite {
 		SIZE = (width == height) ? width : -1;
 		this.width = width;
 		this.height = height;
-		// pixels = new int[SIZE * SIZE];
+		pixels = new int[SIZE * SIZE];
 		this.sheet = sheet;
 	}
 

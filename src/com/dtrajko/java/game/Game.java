@@ -17,10 +17,13 @@ import com.dtrajko.java.game.entity.mob.Mob;
 import com.dtrajko.java.game.entity.mob.Player;
 import com.dtrajko.java.game.graphics.Font;
 import com.dtrajko.java.game.graphics.Screen;
+import com.dtrajko.java.game.graphics.ui.UIManager;
+import com.dtrajko.java.game.graphics.ui.UIPanel;
 import com.dtrajko.java.game.input.Keyboard;
 import com.dtrajko.java.game.input.Mouse;
 import com.dtrajko.java.game.level.Level;
 import com.dtrajko.java.game.level.TileCoordinate;
+import com.dtrajko.java.game.util.Vector2i;
 
 public class Game extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;
@@ -38,6 +41,8 @@ public class Game extends Canvas implements Runnable {
 	// private Mob mob;
 	private boolean running = false;
 
+	private static UIManager uiManager; // = new UIManager();
+
 	private Screen screen;
 	private Font font;
 
@@ -51,24 +56,24 @@ public class Game extends Canvas implements Runnable {
 		setPreferredSize(size);
 
 		screen = new Screen(width, height);
+		uiManager = new UIManager();
 		frame = new JFrame();
 		key = new Keyboard();
 		level = Level.spawn;
-		TileCoordinate playerSpawn = new TileCoordinate(19, 62);
+		TileCoordinate playerSpawn = new TileCoordinate(20, 62);
 		player = new Player(playerSpawn.x(), playerSpawn.y(), key);
 		// player.init(level);
 		level.add(player);
 		font = new Font();
+		addKeyListener(key);
+		Mouse mouse = new Mouse();
+		addMouseListener(mouse);
+		addMouseMotionListener(mouse);
 		// mob = new Dummy(25, 57);
 		// mob.init(level);
 		// level = new RandomLevel(64, 64);
         // setFocusable(true);
         // requestFocusInWindow();
-		addKeyListener(key);
-
-		Mouse mouse = new Mouse();
-		addMouseListener(mouse);
-		addMouseMotionListener(mouse);
 	}
 	
 	public static int getWindowWidth() {
@@ -77,6 +82,10 @@ public class Game extends Canvas implements Runnable {
 
 	public static int getWindowHeight() {
 		return height * scale;
+	}
+
+	public static UIManager getUIManager() {
+		return uiManager;
 	}
 
 	public synchronized void start() {
@@ -131,6 +140,7 @@ public class Game extends Canvas implements Runnable {
 		// player.update();
 		// mob.update();
 		level.update();
+		uiManager.update();
 		/**
 		if (key.up) y--;
 		if (key.down) y++;
@@ -145,42 +155,36 @@ public class Game extends Canvas implements Runnable {
 			createBufferStrategy(3);
 			return;
 		}
-
 		screen.clear();
 		double xScroll = player.getX() - screen.width / 2;
 		double yScroll = player.getY() - screen.height / 2;
 		level.render((int) xScroll, (int) yScroll, screen);
-		// font.render(20, 40, -2, 0x880000, "AB(ab)de,fgh\nijklmpqrtuwxy", screen);
-		// player.render(screen);
-		// mob.render(screen);
-		// screen.render(x, y);
-
-		/*
-		Sprite sprite = new Sprite(80, 80, 0xff00ff);
-		screen.renderSprite(0, 0, sprite, false);
-		*/
-
+		uiManager.render(screen);
 		for(int i = 0; i < pixels.length; i++) {
 			pixels[i] = screen.pixels[i];
 		}
-
 		Graphics g = bs.getDrawGraphics();
-		// work with Graphics
-		// g.setColor(Color.BLACK);
-		// g.fillRect(0, 0, getWidth(), getHeight());
-		// g.fillRect(Mouse.getX() - 16, Mouse.getY() - 16, 32, 32);
 		g.fillOval(Mouse.getX() - 16, Mouse.getY() - 16, 32, 32);
 		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
-
-		/*
+		g.dispose();
+		bs.show();
+		/**
+		font.render(20, 40, -2, 0x880000, "AB(ab)de,fgh\nijklmpqrtuwxy", screen);
+		player.render(screen);
+		mob.render(screen);
+		screen.render(x, y);
+		Sprite sprite = new Sprite(80, 80, 0xff00ff);
+		screen.renderSprite(0, 0, sprite, false);
+		// work with Graphics
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, getWidth(), getHeight());
+		g.fillRect(Mouse.getX() - 16, Mouse.getY() - 16, 32, 32);
 		g.setFont(new Font("Verdana", Font.BOLD, 24));
 		g.setColor(Color.GREEN);
-		// g.setColor(Color.WHITE);
+		g.setColor(Color.WHITE);
 		g.drawString("X: " + player.getX() + " | Y:" + player.getY() + " | mX: " + Mouse.getX() + " | mY: " + Mouse.getY() +
 			" | mB: " + Mouse.getButton(), 20, 660);
 		*/
-		g.dispose();
-		bs.show();
 	}
 
 	public static void main(String[] args) {
