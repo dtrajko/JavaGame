@@ -231,7 +231,7 @@ public class Level {
 	}
 
 	public Mob mobColided(int x, int y) {
-		int precision = 15;
+		int precision = 30;
 		for (int i = 0; i < entities.size(); i++) {
 			if (Math.abs(entities.get(i).getX() - x) < precision && Math.abs(entities.get(i).getY() - y) < precision) {
 				if (entities.get(i) instanceof Mob) {

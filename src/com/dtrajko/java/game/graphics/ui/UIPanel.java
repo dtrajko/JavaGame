@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.dtrajko.java.game.util.Vector2i;
 
-public class UIPanel {
+public class UIPanel extends UIComponent {
 
 	private List<UIComponent> components = new ArrayList<UIComponent>();
 	private Vector2i position, size;
@@ -15,9 +15,10 @@ public class UIPanel {
 	private Color color;
 
 	public UIPanel(Vector2i position, Vector2i size) {
+		super(position);
 		this.position = position;
 		this.size = size;
-		this.color = new Color(0xcacaca);
+		this.color = new Color(0xaa444444, true);
 		// sprite = new Sprite(100, 225, 0xcacaca);
 	}
 

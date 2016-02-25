@@ -7,8 +7,10 @@ import com.dtrajko.java.game.util.Vector2i;
 
 public class UIComponent {
 
-	public int backgroundColor;
-	public Vector2i position, offset;
+	public int bgColor;
+	public Vector2i position;
+	public Vector2i size;
+	protected Vector2i offset;
 	public Color color;
  
 	public UIComponent(Vector2i position) {
@@ -32,5 +34,4 @@ public class UIComponent {
 	public void render(Graphics g) {
 		
 	}
-
 }

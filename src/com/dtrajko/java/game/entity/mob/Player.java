@@ -1,6 +1,9 @@
 package com.dtrajko.java.game.entity.mob;
 
+import java.awt.Font;
 import java.util.List;
+
+import org.w3c.dom.ranges.RangeException;
 
 import com.dtrajko.java.game.Game;
 import com.dtrajko.java.game.entity.Entity;
@@ -13,6 +16,7 @@ import com.dtrajko.java.game.graphics.SpriteSheet;
 import com.dtrajko.java.game.graphics.ui.UILabel;
 import com.dtrajko.java.game.graphics.ui.UIManager;
 import com.dtrajko.java.game.graphics.ui.UIPanel;
+import com.dtrajko.java.game.graphics.ui.UIProgressBar;
 import com.dtrajko.java.game.input.Keyboard;
 import com.dtrajko.java.game.input.Mouse;
 import com.dtrajko.java.game.util.Debug;
@@ -20,6 +24,8 @@ import com.dtrajko.java.game.util.Vector2i;
 
 public class Player extends Mob {
 
+	private String name;
+	private int lives = 5;
 	private Keyboard input;
 	private Sprite sprite;
 	private int anim = 0;
@@ -32,9 +38,13 @@ public class Player extends Mob {
 	private AnimatedSprite right = new AnimatedSprite(SpriteSheet.player_anim_right, 32, 32, 3);
 	private AnimatedSprite animSprite = down;
 	private double speed = 2;
+	private int time;
 	private UIManager ui;
+	private UIProgressBar uiHealthBar;
 
-	public Player(Keyboard input) {
+	@Deprecated
+	public Player(String name, Keyboard input) {
+		this.name = name;
 		this.input = input;
 		input.right = true;
 		sprite = Sprite.player_forward;
@@ -42,7 +52,8 @@ public class Player extends Mob {
 		// update();
 	}
 
-	public Player(int x, int y, Keyboard input) {
+	public Player(String name, int x, int y, Keyboard input) {
+		this.name = name;
 		this.x = x;
 		this.y = y;
 		this.input = input;
@@ -54,9 +65,42 @@ public class Player extends Mob {
 		ui = Game.getUIManager();
 		UIPanel panel = new UIPanel(new Vector2i(300 * Game.scale, 0 * Game.scale), new Vector2i(100 * Game.scale, 225 * Game.scale));
 		ui.addPanel(panel);
-		panel.addComponent(new UILabel(new Vector2i(10, 30), "Hello!").setColor(0x222266));
+		UILabel nameLabel = new UILabel(new Vector2i(10, 28), name).setColor(0xccff00);
+		nameLabel.dropShadow = true;
+		panel.addComponent(nameLabel);
+		String lifesString = "";
+		for (int i = 1; i <= lives; i++) {
+			lifesString += "♥";
+		}
+		UILabel uiLivesLabel = new UILabel(new Vector2i(130, 35), lifesString);
+		uiLivesLabel.setFont(new Font("SansSerif", Font.BOLD, 36));
+		uiLivesLabel.setColor(0xEE3030);
+		panel.addComponent(uiLivesLabel);
+		uiHealthBar = new UIProgressBar(new Vector2i(10, 45), new Vector2i(280, 20));
+		uiHealthBar.setColor(0x000000);
+		uiHealthBar.setFgColor(0xEE3030);
+		panel.addComponent(uiHealthBar);
+
+		UILabel healthLabel = new UILabel(new Vector2i(uiHealthBar.position).add(new Vector2i(2, 16)), "Health");
+		healthLabel.setColor(0xFFFFFF);
+		healthLabel.setFont(new Font("SansSerif", Font.BOLD, 18));
+		panel.addComponent(healthLabel);
+
+		// Player default attributes
+		health = 100;
 		// animSprite = down;
 		// update();
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void decreaseLives() {
+		if (lives < 0) {
+			throw new RangeException(RangeException.BAD_BOUNDARYPOINTS_ERR, "No more lives left!");
+		}
+		lives--;
 	}
 
 	public void update() {
@@ -137,6 +181,8 @@ public class Player extends Mob {
 			shoot(x, y, shoot_direction);
 			fireRate = WizardProjectile.FIRE_RATE;
 		}
+	
+		uiHealthBar.setProgress((100.0 - time++ % 100) / 100.0);
 	}
 
 	public void render(Screen screen) {

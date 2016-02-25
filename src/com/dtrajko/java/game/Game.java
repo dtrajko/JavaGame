@@ -28,8 +28,8 @@ import com.dtrajko.java.game.util.Vector2i;
 public class Game extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;
 
-	public static int width = 400;
-	public static int height = width / 16 * 9;
+	public static int width = 400 - 100;
+	public static int height = width / 4 * 3; // 16 * 9;
 	public static int scale = 3;
 	public static String title = "Game";
 
@@ -52,7 +52,7 @@ public class Game extends Canvas implements Runnable {
 	public int x = 0, y = 0;
 
 	public Game() {
-		Dimension size = new Dimension(width * scale, height * scale);
+		Dimension size = new Dimension(width * scale + 100 * 3, height * scale);
 		setPreferredSize(size);
 
 		screen = new Screen(width, height);
@@ -61,7 +61,7 @@ public class Game extends Canvas implements Runnable {
 		key = new Keyboard();
 		level = Level.spawn;
 		TileCoordinate playerSpawn = new TileCoordinate(20, 62);
-		player = new Player(playerSpawn.x(), playerSpawn.y(), key);
+		player = new Player("dtrajko", playerSpawn.x(), playerSpawn.y(), key);
 		// player.init(level);
 		level.add(player);
 		font = new Font();
@@ -160,14 +160,20 @@ public class Game extends Canvas implements Runnable {
 		double yScroll = player.getY() - screen.height / 2;
 		level.render((int) xScroll, (int) yScroll, screen);
 		Graphics g = bs.getDrawGraphics();
-		g.fillOval(Mouse.getX() - 16, Mouse.getY() - 16, 32, 32);
-		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+		g.drawImage(image, 0, 0, width * scale, height * scale, null);
 		uiManager.render(g);
 		for(int i = 0; i < pixels.length; i++) {
 			pixels[i] = screen.pixels[i];
 		}
+
+		g.setFont(new java.awt.Font("Verdana", java.awt.Font.BOLD, 24));
+		g.setColor(Color.GREEN);
+		g.fillOval(Mouse.getX() - 16, Mouse.getY() - 16, 32, 32);
+		g.drawString("X: " + player.getX() + " | Y:" + player.getY() + " | mX: " + Mouse.getX() + " | mY: " + Mouse.getY() +
+				" | mB: " + Mouse.getButton(), 20, 660);
 		g.dispose();
 		bs.show();
+
 		/**
 		font.render(20, 40, -2, 0x880000, "AB(ab)de,fgh\nijklmpqrtuwxy", screen);
 		player.render(screen);
@@ -182,8 +188,6 @@ public class Game extends Canvas implements Runnable {
 		g.setFont(new Font("Verdana", Font.BOLD, 24));
 		g.setColor(Color.GREEN);
 		g.setColor(Color.WHITE);
-		g.drawString("X: " + player.getX() + " | Y:" + player.getY() + " | mX: " + Mouse.getX() + " | mY: " + Mouse.getY() +
-			" | mB: " + Mouse.getButton(), 20, 660);
 		*/
 	}
 
