@@ -1,9 +1,8 @@
 package com.dtrajko.java.game.graphics.ui;
 
+import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.List;
-
-import com.dtrajko.java.game.graphics.Screen;
+import java.util.List ;
 
 public class UIManager {
 
@@ -23,10 +22,10 @@ public class UIManager {
 		}
 	}
 
-	public void render(Screen screen) {
+	public void render(Graphics g) {
 		// screen.drawRect(320, 0, 80, 224, 0x0000ff, false);
 		for (UIPanel panel : panels) {
-			panel.render(screen);
+			panel.render(g);
 		}
 	}
 }

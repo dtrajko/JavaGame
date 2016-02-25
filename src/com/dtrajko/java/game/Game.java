@@ -159,13 +159,13 @@ public class Game extends Canvas implements Runnable {
 		double xScroll = player.getX() - screen.width / 2;
 		double yScroll = player.getY() - screen.height / 2;
 		level.render((int) xScroll, (int) yScroll, screen);
-		uiManager.render(screen);
-		for(int i = 0; i < pixels.length; i++) {
-			pixels[i] = screen.pixels[i];
-		}
 		Graphics g = bs.getDrawGraphics();
 		g.fillOval(Mouse.getX() - 16, Mouse.getY() - 16, 32, 32);
 		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+		uiManager.render(g);
+		for(int i = 0; i < pixels.length; i++) {
+			pixels[i] = screen.pixels[i];
+		}
 		g.dispose();
 		bs.show();
 		/**

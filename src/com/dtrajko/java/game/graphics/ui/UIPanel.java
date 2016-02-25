@@ -1,21 +1,24 @@
 package com.dtrajko.java.game.graphics.ui;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dtrajko.java.game.graphics.Screen;
-import com.dtrajko.java.game.graphics.Sprite;
 import com.dtrajko.java.game.util.Vector2i;
 
 public class UIPanel {
 
 	private List<UIComponent> components = new ArrayList<UIComponent>();
-	private Vector2i position;
-	private Sprite sprite;
+	private Vector2i position, size;
+	// private Sprite sprite;
+	private Color color;
 
-	public UIPanel(Vector2i position) {
+	public UIPanel(Vector2i position, Vector2i size) {
 		this.position = position;
-		sprite = new Sprite(100, 225, 0xcacaca);
+		this.size = size;
+		this.color = new Color(0xcacaca);
+		// sprite = new Sprite(100, 225, 0xcacaca);
 	}
 
 	public void addComponent(UIComponent component) {
@@ -29,10 +32,12 @@ public class UIPanel {
 		}
 	}
 
-	public void render(Screen screen) {
-		screen.renderSprite(position.x, position.y, sprite, false);
+	public void render(Graphics g) {
+		// screen.renderSprite(position.x, position.y, sprite, false);
+		g.setColor(color);
+		g.fillRect(position.x, position.y, size.x, size.y);
 		for (UIComponent component : components) {
-			component.render(screen);
+			component.render(g);
 		}
 	}
 }

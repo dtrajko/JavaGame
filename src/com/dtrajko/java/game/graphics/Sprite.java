@@ -108,7 +108,7 @@ public class Sprite {
 		return new Sprite(rotate(sprite.pixels, sprite.width, sprite.height, angle), sprite.width, sprite.height);
 	}
 
-	private static int[] rotate(int[] pixels, int width, int height, double angle) {
+	public static int[] rotate(int[] pixels, int width, int height, double angle) {
 		int[] result = new int[width * height];
 		double nx_x = rotateX(-angle, 1.0, 0.0);
 		double nx_y = rotateY(-angle, 1.0, 0.0);

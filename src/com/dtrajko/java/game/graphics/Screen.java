@@ -163,8 +163,7 @@ public class Screen {
 		}
 	}
 
-	/*
-	public void renderProjectile(double xp, double yp, Projectile p, double angle) {
+	public void renderProjectileAngle(double xp, double yp, Projectile p, double angle) {
 		xp -= (double) xOffset;
 		yp -= (double) yOffset;
 		for (int y = 0; y < p.getSpriteSize(); y++) {
@@ -181,7 +180,6 @@ public class Screen {
 			}
 		}
 	}
-	*/
 
 	public void drawRect(int xp, int yp, int width, int height, int color, boolean fixed) {
 		if (fixed) {
