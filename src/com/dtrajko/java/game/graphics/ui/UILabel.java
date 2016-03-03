@@ -18,7 +18,7 @@ public class UILabel extends UIComponent {
 	public int dropShadowOffset = 2;
 
 	public UILabel(Vector2i position, String text) {
-		super(position);
+		super(position, new Vector2i());
 		font = new Font("SansSerif", Font.BOLD, 24);
 		this.text = text;
 		color = new Color(0x333399);

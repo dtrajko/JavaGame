@@ -31,7 +31,7 @@ public class Shooter extends Mob {
 		this.x = x << 4;
 		this.y = y << 4;
 		sprite = Sprite.skeleton;
-		this.life = 3;
+		this.lives = 3;
 	}
 
 	public void move() {

@@ -1,24 +1,27 @@
 package com.dtrajko.java.game.entity.mob;
 
+import java.awt.event.MouseEvent;
+
+import com.dtrajko.java.game.Game;
 import com.dtrajko.java.game.entity.Entity;
 import com.dtrajko.java.game.entity.particle.Particle;
 import com.dtrajko.java.game.entity.projectile.Projectile;
 import com.dtrajko.java.game.entity.projectile.WizardProjectile;
 import com.dtrajko.java.game.graphics.Sprite;
+import com.dtrajko.java.game.input.Mouse;
 import com.dtrajko.java.game.level.tile.Tile;
 
 public abstract class Mob extends Entity {
 
+	public int lives = 5;
+
 	protected boolean moving = false;
 	protected boolean walking = false;
-	protected int life = 5;
 	protected int health;
-
+	protected Direction dir;
 	protected enum Direction {
 		UP, DOWN, LEFT, RIGHT
 	};
-
-	protected Direction dir;
 
 	public void move(double xa, double ya) {
 		if (xa != 0 && ya != 0) {
@@ -91,21 +94,39 @@ public abstract class Mob extends Entity {
 		return solid;
 	}
 
-	protected void shoot(double x, double y, double dir) {
+	protected void shoot(double x, double y, double dir, Sprite weapon) {
+		if (Mouse.getButton() != MouseEvent.NOBUTTON && Mouse.getX() > Game.getWindowWidth()) {
+			return;
+		}
+		Projectile p = new WizardProjectile((int) x + 8, (int) y + 8, dir, this, weapon);
+		level.add(p);
+		
 		// dir *=180 / Math.PI;
 		// System.out.println("Angle: " + Math.round(dir));
-		Projectile p = new WizardProjectile((int) x + 8, (int) y + 8, dir);
 		// level.addProjectile(p);
-		level.add(p);
 	}
 
 	public void render() {
 	}
 
+	protected void decreaseLives() {
+		this.lives--;
+		System.out.println("Mob decrease lives " + lives);
+	}
+
 	public void hurt() {
-		this.life--;
-		if (this.life <= 0) {
-			remove();
+		if (this instanceof Player) {
+			health -= 10;
+			if (health <= 0) {
+				decreaseLives();
+				health = 100;
+			}
+			System.out.println("The Player is hurt! Health: " + health);
+		} else {
+			this.lives--;
+			if (this.lives <= 0) {
+				remove();
+			}
 		}
 	}
 }

@@ -13,7 +13,7 @@ public class Sprite {
 	public static Sprite wall    = new Sprite(16, 0, 2, SpriteSheet.tiles);
 	public static Sprite bush    = new Sprite(16, 1, 0, SpriteSheet.tiles);
 	public static Sprite rock    = new Sprite(16, 1, 1, SpriteSheet.tiles);
-	public static Sprite bullet  = new Sprite(16, 0, 3, SpriteSheet.tiles);
+	public static Sprite cannonball  = new Sprite(16, 0, 3, SpriteSheet.tiles);
 	public static Sprite pickaxe = new Sprite(16, 1, 3, SpriteSheet.tiles);
 	public static Sprite sword   = new Sprite(16, 0, 4, SpriteSheet.tiles);
 	

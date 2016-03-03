@@ -19,7 +19,7 @@ public class Particle extends Entity {
 	protected double xa, ya, za;
 
 	public Particle(int x, int y, int life) {
-		System.out.println("Particle life: " + life);
+		// System.out.println("Particle life: " + life);
 		this.x = x;
 		this.y = y;
 		this.xx = x;

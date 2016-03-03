@@ -40,7 +40,7 @@ public class Dummy extends Mob {
 		this.x = x << 4;
 		this.y = y << 4;
 		sprite = Sprite.zombie;
-		this.life = 3;
+		this.lives = 3;
 	}
 
 	public void update() {

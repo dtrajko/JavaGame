@@ -48,6 +48,6 @@ public class Mouse implements MouseListener, MouseMotionListener {
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		mouseB = 0;
+		mouseB = MouseEvent.NOBUTTON;
 	}
 }

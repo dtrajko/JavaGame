@@ -34,7 +34,7 @@ public class Star extends Mob {
 		this.x = x << 4;
 		this.y = y << 4;
 		sprite = Sprite.skeleton;
-		this.life = 6;
+		this.lives = 6;
 	}
 
 	public void move() {

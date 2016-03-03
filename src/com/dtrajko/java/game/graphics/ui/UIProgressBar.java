@@ -10,12 +10,11 @@ import com.dtrajko.java.game.util.Vector2i;
 public class UIProgressBar extends UIComponent {
 
 	private double progress; // 0.0 - 1.0
-	private Vector2i size;
+	// private Vector2i size;
 	private Color fgColor ;
 
 	public UIProgressBar(Vector2i position, Vector2i size) {
-		super(position);
-		this.size = size;
+		super(position, size);
 		this.fgColor = new Color(0xFF00FF);
 	}
 

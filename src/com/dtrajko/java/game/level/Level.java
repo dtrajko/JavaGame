@@ -239,6 +239,13 @@ public class Level {
 				}
 			}
 		}
+		for (int i = 0; i < players.size(); i++) {
+			if (Math.abs(players.get(i).getX() - x) < precision && Math.abs(players.get(i).getY() - y) < precision) {
+				if (players.get(i) instanceof Player) {
+					return (Mob) players.get(i);	
+				}
+			}
+		}
 		return null;
 	}
 

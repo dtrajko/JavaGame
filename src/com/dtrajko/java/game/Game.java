@@ -51,6 +51,8 @@ public class Game extends Canvas implements Runnable {
 
 	public int x = 0, y = 0;
 
+	public boolean game_on = true;
+
 	public Game() {
 		Dimension size = new Dimension(width * scale + 100 * 3, height * scale);
 		setPreferredSize(size);
@@ -156,7 +158,7 @@ public class Game extends Canvas implements Runnable {
 			return;
 		}
 		screen.clear();
-		double xScroll = player.getX() - screen.width / 2;
+		double xScroll = player.getX() - screen.width / 2 + 16;
 		double yScroll = player.getY() - screen.height / 2;
 		level.render((int) xScroll, (int) yScroll, screen);
 		Graphics g = bs.getDrawGraphics();
@@ -166,11 +168,17 @@ public class Game extends Canvas implements Runnable {
 			pixels[i] = screen.pixels[i];
 		}
 
-		g.setFont(new java.awt.Font("Verdana", java.awt.Font.BOLD, 24));
+		g.setFont(new java.awt.Font("Verdana", java.awt.Font.BOLD, 20));
 		g.setColor(Color.GREEN);
-		g.fillOval(Mouse.getX() - 16, Mouse.getY() - 16, 32, 32);
+		// g.fillOval(Mouse.getX() - 16, Mouse.getY() - 16, 32, 32);
 		g.drawString("X: " + player.getX() + " | Y:" + player.getY() + " | mX: " + Mouse.getX() + " | mY: " + Mouse.getY() +
 				" | mB: " + Mouse.getButton(), 20, 660);
+
+		// System.out.println("Player lives: " + player.lives);
+		if (player.lives == 0) {
+			displayGameOver(g);
+		}
+
 		g.dispose();
 		bs.show();
 
@@ -189,6 +197,14 @@ public class Game extends Canvas implements Runnable {
 		g.setColor(Color.GREEN);
 		g.setColor(Color.WHITE);
 		*/
+	}
+
+	public void displayGameOver(Graphics g) {
+		g.setFont(new java.awt.Font("SansSerif", java.awt.Font.BOLD, 80));
+		g.setColor(Color.BLACK);
+		g.drawString("GAME OVER", 175, 365);
+		g.setColor(Color.YELLOW);
+		g.drawString("GAME OVER", 170, 360);
 	}
 
 	public static void main(String[] args) {
