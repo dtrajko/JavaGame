@@ -37,6 +37,8 @@ public class Player extends Mob {
 
  	public List<UIButton> lives_buttons = new ArrayList<UIButton>();
 	public Sprite weapon = Sprite.sword;
+	public UIProgressBar uiHealthBar;
+	public UIProgressBar uiMissionBar;
   
 	private String name;
 	private Keyboard input;
@@ -54,7 +56,6 @@ public class Player extends Mob {
 	private int time;
 	private UIManager ui;
 	private UIPanel panel;
-	private UIProgressBar uiHealthBar;
 	private UIButton button_pickaxe;
 	private UIButton button_sword;
 	private UIButton button_cannonball;
@@ -118,6 +119,75 @@ public class Player extends Mob {
 		healthLabel.setFont(new Font("SansSerif", Font.BOLD, 18));
 		panel.addComponent(healthLabel);
 
+		uiMissionBar = new UIProgressBar(new Vector2i(10, 270), new Vector2i(280, 20));
+		uiMissionBar.setColor(0x000000);
+		uiMissionBar.setFgColor(0x0000FF);
+		panel.addComponent(uiMissionBar);
+
+		UILabel missionLabel = new UILabel(new Vector2i(uiMissionBar.position).add(new Vector2i(2, 16)), "Mission Complete");
+		missionLabel.setColor(0xFFFFFF);
+		missionLabel.setFont(new Font("SansSerif", Font.BOLD, 18));
+		panel.addComponent(missionLabel);
+
+		// Buttons with images
+		try {
+			button_img_pickaxe = new UIButton(
+				new Vector2i(10, 300),
+				new Vector2i(16 * Game.scale + 10, 16 * Game.scale + 10),
+				ImageIO.read(new File("res/textures/pickaxe.png")),
+				new UIActionListener() {
+					public void perform() {
+						System.out.println("Weapon 'Pickaxe' selected!");
+						level.getClientPlayer().weapon = Sprite.pickaxe;
+					}
+				}
+			);
+			button_img_pickaxe.setText("Pickaxe");
+			panel.addComponent(button_img_pickaxe);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		try {
+			button_img_sword = new UIButton(
+				new Vector2i(70, 300),
+				new Vector2i(16 * Game.scale + 10, 16 * Game.scale + 10),
+				ImageIO.read(new File("res/textures/sword.png")),
+				new UIActionListener() {
+					public void perform() {
+						System.out.println("Weapon 'Sword' selected!");
+						level.getClientPlayer().weapon = Sprite.sword;
+					}
+				}
+			);
+			button_img_sword.setText("Sword");
+			panel.addComponent(button_img_sword);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		try {
+			button_img_cannonball = new UIButton(
+				new Vector2i(130, 300),
+				new Vector2i(16 * Game.scale + 10, 16 * Game.scale + 10),
+				ImageIO.read(new File("res/textures/cannonball.png")),
+				new UIActionListener() {
+					public void perform() {
+						System.out.println("Weapon 'Cannonball' selected!");
+						level.getClientPlayer().weapon = Sprite.cannonball;
+					}
+				}
+			);
+			button_img_cannonball.setText("Cannonball");
+			panel.addComponent(button_img_cannonball);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// BEGIN image button with variable brightness
 		try {
 			image = ImageIO.read(new File("res/textures/heart.png"));
 		} catch (IOException e) {
@@ -146,8 +216,8 @@ public class Player extends Mob {
 				button.setImage(image);
 			}
 		});
-		panel.addComponent(imageButton);
-
+		// panel.addComponent(imageButton);
+		// END image button with variable brightness
 
 		/*
 		button_pickaxe = new UIButton(
@@ -196,64 +266,6 @@ public class Player extends Mob {
 		button_cannonball.setText("Cannonball");
 		panel.addComponent(button_cannonball);
 		*/
-
-		// Buttons with images
-		try {
-			button_img_pickaxe = new UIButton(
-				new Vector2i(10, 280),
-				new Vector2i(16 * Game.scale + 10, 16 * Game.scale + 10),
-				ImageIO.read(new File("res/textures/pickaxe.png")),
-				new UIActionListener() {
-					public void perform() {
-						System.out.println("Weapon 'Pickaxe' selected!");
-						level.getClientPlayer().weapon = Sprite.pickaxe;
-					}
-				}
-			);
-			button_img_pickaxe.setText("Pickaxe");
-			panel.addComponent(button_img_pickaxe);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		try {
-			button_img_sword = new UIButton(
-				new Vector2i(70, 280),
-				new Vector2i(16 * Game.scale + 10, 16 * Game.scale + 10),
-				ImageIO.read(new File("res/textures/sword.png")),
-				new UIActionListener() {
-					public void perform() {
-						System.out.println("Weapon 'Sword' selected!");
-						level.getClientPlayer().weapon = Sprite.sword;
-					}
-				}
-			);
-			button_img_sword.setText("Sword");
-			panel.addComponent(button_img_sword);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		try {
-			button_img_cannonball = new UIButton(
-				new Vector2i(130, 280),
-				new Vector2i(16 * Game.scale + 10, 16 * Game.scale + 10),
-				ImageIO.read(new File("res/textures/cannonball.png")),
-				new UIActionListener() {
-					public void perform() {
-						System.out.println("Weapon 'Cannonball' selected!");
-						level.getClientPlayer().weapon = Sprite.cannonball;
-					}
-				}
-			);
-			button_img_cannonball.setText("Cannonball");
-			panel.addComponent(button_img_cannonball);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 		// animSprite = down;
 		// update();
@@ -315,6 +327,12 @@ public class Player extends Mob {
 			walking = false;
 		}
 		clear();
+		time++;
+		if (time % 10 == 0) {
+			if (level.playerMobCollision((int) x, (int) y)) {
+				damage();
+			}			
+		}
 		updateShooting();
 		updateUI();
 	}
@@ -356,8 +374,9 @@ public class Player extends Mob {
 
 	private void updateUI() {
 		double progress = health / 100.0;
-		System.out.println("Player health: " + health + ", player health progress: " + progress);
+		// System.out.println("Player health: " + health + ", player health progress: " + progress);
 		uiHealthBar.setProgress(progress);
+		uiMissionBar.setProgress(missionComplete());
 		/*
 		if (health <= 0) {
 			decreaseLives();
@@ -365,6 +384,17 @@ public class Player extends Mob {
 			// pass
 		}
 		*/
+	}
+
+	public double missionComplete() {
+		double completed = 0.0;
+		double enemies_total = level.total_entities;
+		double enemies_remaining = level.getMobs(this, 10000).size();
+		completed = (enemies_total - enemies_remaining) / enemies_total;
+		if (time % 40 == 0 &&completed < 1.0) {			
+			System.out.println("Remaining " + (int) enemies_remaining + " of total " + (int) enemies_total + ". Completed " + (int) (completed * 100) + "%");
+		}
+		return completed;
 	}
 
 	private void drawLives() {

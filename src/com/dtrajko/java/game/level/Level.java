@@ -24,6 +24,7 @@ public class Level {
 	// protected Tile[] tiles;
 	// protected int[] tilesInt;
 	protected int[] tiles;
+	public int total_entities = 50;
 
 	private List<Entity> entities = new ArrayList<Entity>();
 	private List<Projectile> projectiles = new ArrayList<Projectile>();
@@ -64,6 +65,12 @@ public class Level {
 	protected void loadLevel(String path) {
 	}
 
+	public boolean isComplete() {
+		boolean complete = false;
+		// if 
+		return complete;
+	}
+
 	public void update() {
 		for (int i = 0; i < entities.size(); i++) {
 			entities.get(i).update();
@@ -100,6 +107,21 @@ public class Level {
 			if (players.get(i).isRemoved()) {
 				players.remove(i);
 			}
+		}
+	}
+
+	public void removeAll() {
+		for (int i = 0; i < entities.size(); i++) {
+			entities.remove(i);
+		}
+		for (int i = 0; i < projectiles.size(); i++) {
+			projectiles.remove(i);
+		}
+		for (int i = 0; i < particles.size(); i++) {
+			particles.remove(i);
+		}
+		for (int i = 0; i < players.size(); i++) {
+			// players.remove(i);
 		}
 	}
 
@@ -230,7 +252,7 @@ public class Level {
 		return solid;
 	}
 
-	public Mob mobColided(int x, int y) {
+	public Mob projectileMobCollision(int x, int y) {
 		int precision = 30;
 		for (int i = 0; i < entities.size(); i++) {
 			if (Math.abs(entities.get(i).getX() - x) < precision && Math.abs(entities.get(i).getY() - y) < precision) {
@@ -247,6 +269,21 @@ public class Level {
 			}
 		}
 		return null;
+	}
+
+	public boolean playerMobCollision(int x, int y) {
+		boolean result = false;
+		int precision = 30;
+		for (int i = 0; i < entities.size(); i++) {
+			if (Math.abs(entities.get(i).getX() - x) < precision && Math.abs(entities.get(i).getY() - y) < precision) {
+				if (entities.get(i) instanceof Mob) {
+					System.out.println("playerMobCollision: (" + x + ":" + y + ")");
+					result = true;
+					break;
+				}
+			}
+		}
+		return result;
 	}
 
 	public void render(int xScroll, int yScroll, Screen screen) {

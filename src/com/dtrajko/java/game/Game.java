@@ -51,7 +51,7 @@ public class Game extends Canvas implements Runnable {
 
 	public int x = 0, y = 0;
 
-	public boolean game_on = true;
+	public boolean game_over = false;
 
 	public Game() {
 		Dimension size = new Dimension(width * scale + 100 * 3, height * scale);
@@ -138,11 +138,30 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	public void update() {
+		if (game_over) {
+			return;
+		}
+
+		if (player.missionComplete() == 1.0) {
+			player.uiMissionBar.setProgress(1.0);
+			return;
+		}
+
 		key.update();
 		// player.update();
 		// mob.update();
 		level.update();
 		uiManager.update();
+
+		// System.out.println("Player lives: " + player.lives);			
+		if (player.lives == 0) {
+			System.out.println("Game Over!");
+			level.removeAll();
+			player.uiHealthBar.setProgress(0.0);
+			player.uiMissionBar.setProgress(0.0);
+			game_over = true;
+		}
+
 		/**
 		if (key.up) y--;
 		if (key.down) y++;
@@ -174,9 +193,12 @@ public class Game extends Canvas implements Runnable {
 		g.drawString("X: " + player.getX() + " | Y:" + player.getY() + " | mX: " + Mouse.getX() + " | mY: " + Mouse.getY() +
 				" | mB: " + Mouse.getButton(), 20, 660);
 
-		// System.out.println("Player lives: " + player.lives);
-		if (player.lives == 0) {
+		if (game_over) {
 			displayGameOver(g);
+		}
+
+		if (player.missionComplete() == 1.0) {
+			displayMissionComplete(g);
 		}
 
 		g.dispose();
@@ -205,6 +227,14 @@ public class Game extends Canvas implements Runnable {
 		g.drawString("GAME OVER", 175, 365);
 		g.setColor(Color.YELLOW);
 		g.drawString("GAME OVER", 170, 360);
+	}
+
+	public void displayMissionComplete(Graphics g) {
+		g.setFont(new java.awt.Font("SansSerif", java.awt.Font.BOLD, 74));
+		g.setColor(Color.BLACK);
+		g.drawString("MISSION COMPLETE!", 15, 365);
+		g.setColor(Color.YELLOW);
+		g.drawString("MISSION COMPLETE!", 20, 360);
 	}
 
 	public static void main(String[] args) {

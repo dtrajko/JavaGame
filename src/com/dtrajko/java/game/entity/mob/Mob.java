@@ -114,15 +114,25 @@ public abstract class Mob extends Entity {
 		System.out.println("Mob decrease lives " + lives);
 	}
 
-	public void hurt() {
+	public void damage() {
+		if (this instanceof Player) {
+			health -= 1;
+			if (health <= 0) {
+				decreaseLives();
+				health = 100;
+			}
+		}
+	}
+
+	public void wound() {
 		if (this instanceof Player) {
 			health -= 10;
 			if (health <= 0) {
 				decreaseLives();
 				health = 100;
 			}
-			System.out.println("The Player is hurt! Health: " + health);
-		} else {
+			System.out.println("The Player is wounded! Health: " + health);
+		} else if (this instanceof Mob) {
 			this.lives--;
 			if (this.lives <= 0) {
 				remove();

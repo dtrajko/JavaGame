@@ -35,16 +35,21 @@ public class SpawnLevel extends Level {
 		// add(new Dummy(25, 57));
 		// add(new Dummy(38, 57));
 		// add(new Star(10, 62));
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < total_entities; i++) {
 			int coordX = random.nextInt(64);
 			int coordY = random.nextInt(64);
-			if (i % 2 == 0) {
-				add(new Chaser(coordX, coordY));
-			} else {
-				add(new Dummy(coordX, coordY));
+			switch (i % 3) {
+				case 0: 
+					add(new Dummy(coordX, coordY));
+					break;
+				case 1:
+					add(new Chaser(coordX, coordY));
+					break;
+				case 2:
+					add(new Shooter(coordX, coordY));
+					break;
 			}
 		}
-		add(new Shooter(12, 62));
 	}
 
 	// Grass  = 0xFF0000

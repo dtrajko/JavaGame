@@ -45,10 +45,10 @@ public class WizardProjectile extends Projectile {
 			remove();
 		}
 		Mob mob;
-		if ((mob = level.mobColided((int) x, (int) y)) instanceof Mob) {
+		if ((mob = level.projectileMobCollision((int) x, (int) y)) instanceof Mob) {
 			if (mob != this.shooter) {
 				level.add(new ParticleSpawner((int)x, (int)y, 64, 50, level));
-				mob.hurt();
+				mob.wound();
 				remove();
 			}
 		}

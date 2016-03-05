@@ -31,7 +31,7 @@ public class Shooter extends Mob {
 		this.x = x << 4;
 		this.y = y << 4;
 		sprite = Sprite.skeleton;
-		this.lives = 3;
+		this.lives = 10;
 	}
 
 	public void move() {
@@ -46,8 +46,8 @@ public class Shooter extends Mob {
 			if (x > player.getX()) xa -= speed;
 			if (y < player.getY()) ya += speed;
 			if (y > player.getY()) ya -= speed;
-			// shootClosest();
-			shootRandom();
+			shootClosest();
+			// shootRandom();
 		} else if (time % (random.nextInt(50) + 30) == 0) {
 			xa = random.nextInt(3) - 1;
 			ya = random.nextInt(3) - 1;
