@@ -11,20 +11,25 @@ import com.dtrajko.java.game.entity.mob.Mob;
 import com.dtrajko.java.game.entity.mob.Player;
 import com.dtrajko.java.game.entity.particle.Particle;
 import com.dtrajko.java.game.entity.projectile.Projectile;
+import com.dtrajko.java.game.events.Event;
 import com.dtrajko.java.game.graphics.Screen;
+import com.dtrajko.java.game.graphics.layers.Layer;
 import com.dtrajko.java.game.level.tile.GrassTile;
 import com.dtrajko.java.game.level.tile.Tile;
 import com.dtrajko.java.game.level.tile.WallTile;
 import com.dtrajko.java.game.level.tile.WaterTile;
 import com.dtrajko.java.game.util.Vector2i;
 
-public class Level {
+public class Level extends Layer {
 
 	public int width, height;
 	// protected Tile[] tiles;
 	// protected int[] tilesInt;
 	protected int[] tiles;
+	protected int tile_size = 16;
 	public int total_entities = 50;
+
+	private int xScroll, yScroll;
 
 	private List<Entity> entities = new ArrayList<Entity>();
 	private List<Projectile> projectiles = new ArrayList<Projectile>();
@@ -85,6 +90,10 @@ public class Level {
 			players.get(i).update();
 		}
 		remove();
+	}
+
+	public void onEvent(Event event) {
+		getClientPlayer().onEvent(event);
 	}
 
 	public void remove() {
@@ -286,7 +295,12 @@ public class Level {
 		return result;
 	}
 
-	public void render(int xScroll, int yScroll, Screen screen) {
+	public void setScroll(int xScroll, int yScroll) {
+		this.xScroll = xScroll;
+		this.yScroll = yScroll;
+	}
+
+	public void render(Screen screen) {
 		screen.setOffset(xScroll, yScroll);
 		int x0 = xScroll >> 4;
 		int x1 = (xScroll + screen.width + 16) >> 4;

@@ -9,14 +9,19 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 
 import com.dtrajko.java.game.entity.mob.Dummy;
 import com.dtrajko.java.game.entity.mob.Mob;
 import com.dtrajko.java.game.entity.mob.Player;
+import com.dtrajko.java.game.events.Event;
+import com.dtrajko.java.game.events.EventListener;
 import com.dtrajko.java.game.graphics.Font;
 import com.dtrajko.java.game.graphics.Screen;
+import com.dtrajko.java.game.graphics.layers.Layer;
 import com.dtrajko.java.game.graphics.ui.UIManager;
 import com.dtrajko.java.game.graphics.ui.UIPanel;
 import com.dtrajko.java.game.input.Keyboard;
@@ -25,7 +30,7 @@ import com.dtrajko.java.game.level.Level;
 import com.dtrajko.java.game.level.TileCoordinate;
 import com.dtrajko.java.game.util.Vector2i;
 
-public class Game extends Canvas implements Runnable {
+public class Game extends Canvas implements Runnable, EventListener {
 	private static final long serialVersionUID = 1L;
 
 	public static int width = 400 - 100;
@@ -49,6 +54,8 @@ public class Game extends Canvas implements Runnable {
 	private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 
+	private List<Layer> layerStack = new ArrayList<Layer>();
+
 	public int x = 0, y = 0;
 
 	public boolean game_over = false;
@@ -62,13 +69,14 @@ public class Game extends Canvas implements Runnable {
 		frame = new JFrame();
 		key = new Keyboard();
 		level = Level.spawn;
+		addLayer(level);
 		TileCoordinate playerSpawn = new TileCoordinate(20, 62);
 		player = new Player("dtrajko", playerSpawn.x(), playerSpawn.y(), key);
 		// player.init(level);
 		level.add(player);
 		font = new Font();
 		addKeyListener(key);
-		Mouse mouse = new Mouse();
+		Mouse mouse = new Mouse(this);
 		addMouseListener(mouse);
 		addMouseMotionListener(mouse);
 		// mob = new Dummy(25, 57);
@@ -88,6 +96,10 @@ public class Game extends Canvas implements Runnable {
 
 	public static UIManager getUIManager() {
 		return uiManager;
+	}
+
+	public void addLayer(Layer layer) {
+		layerStack.add(layer);
 	}
 
 	public synchronized void start() {
@@ -137,6 +149,12 @@ public class Game extends Canvas implements Runnable {
 		stop();
 	}
 
+	public void onEvent(Event event) {
+		for (int i = layerStack.size() - 1; i >= 0; i--) {
+			layerStack.get(i).onEvent(event);
+		}
+	}
+
 	public void update() {
 		if (game_over) {
 			return;
@@ -150,8 +168,13 @@ public class Game extends Canvas implements Runnable {
 		key.update();
 		// player.update();
 		// mob.update();
-		level.update();
 		uiManager.update();
+
+		// level.update();
+		// Update layers here!
+		for (int i = 0; i < layerStack.size(); i++) {
+			layerStack.get(i).update();
+		}
 
 		// System.out.println("Player lives: " + player.lives);			
 		if (player.lives == 0) {
@@ -177,9 +200,16 @@ public class Game extends Canvas implements Runnable {
 			return;
 		}
 		screen.clear();
-		double xScroll = player.getX() - screen.width / 2 + 16;
-		double yScroll = player.getY() - screen.height / 2;
-		level.render((int) xScroll, (int) yScroll, screen);
+		int xScroll = (int) (player.getX() - screen.width / 2 + 16);
+		int yScroll = (int) (player.getY() - screen.height / 2);
+		level.setScroll(xScroll, yScroll);
+
+		// level.render(screen);
+		// Render layers here!
+		for (int i = 0; i < layerStack.size(); i++) {
+			layerStack.get(i).render(screen);
+		}
+
 		Graphics g = bs.getDrawGraphics();
 		g.drawImage(image, 0, 0, width * scale, height * scale, null);
 		uiManager.render(g);

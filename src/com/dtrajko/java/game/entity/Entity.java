@@ -11,7 +11,7 @@ import com.dtrajko.java.game.level.Level;
  */
 public abstract class Entity {
 
-	protected double x, y;
+	protected int x, y;
 	protected Sprite sprite;
 	private boolean removed = false;
 	protected Level level;
@@ -40,11 +40,11 @@ public abstract class Entity {
 		}
 	}
 	
-	public double getX() {
+	public int getX() {
 		return this.x;
 	}
 
-	public double getY() {
+	public int getY() {
 		return this.y;
 	}
 

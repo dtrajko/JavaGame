@@ -1,6 +1,7 @@
 package com.dtrajko.java.game.entity.mob;
 
 import java.awt.Font;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.io.File;
@@ -16,6 +17,12 @@ import com.dtrajko.java.game.Game;
 import com.dtrajko.java.game.entity.Entity;
 import com.dtrajko.java.game.entity.projectile.Projectile;
 import com.dtrajko.java.game.entity.projectile.WizardProjectile;
+import com.dtrajko.java.game.events.Event;
+import com.dtrajko.java.game.events.EventDispatcher;
+import com.dtrajko.java.game.events.EventHandler;
+import com.dtrajko.java.game.events.EventListener;
+import com.dtrajko.java.game.events.types.MousePressedEvent;
+import com.dtrajko.java.game.events.types.MouseReleasedEvent;
 import com.dtrajko.java.game.graphics.AnimatedSprite;
 import com.dtrajko.java.game.graphics.Screen;
 import com.dtrajko.java.game.graphics.Sprite;
@@ -33,7 +40,7 @@ import com.dtrajko.java.game.util.Debug;
 import com.dtrajko.java.game.util.ImageUtils;
 import com.dtrajko.java.game.util.Vector2i;
 
-public class Player extends Mob {
+public class Player extends Mob implements EventListener {
 
  	public List<UIButton> lives_buttons = new ArrayList<UIButton>();
 	public Sprite weapon = Sprite.sword;
@@ -63,6 +70,7 @@ public class Player extends Mob {
 	private UIButton button_img_sword;
 	private UIButton button_img_cannonball;
 	private BufferedImage image, imageHover, imagePressed;
+	private boolean shooting = false;
 
 	@Deprecated
 	public Player(String name, Keyboard input) {
@@ -285,6 +293,22 @@ public class Player extends Mob {
 		System.out.println("Player decrease lives " + lives);
 	}
 
+	public void onEvent(Event event) {
+		EventDispatcher dispatcher = new EventDispatcher(event);
+		dispatcher.dispatch(Event.Type.MOUSE_PRESSED, (Event e) -> onMousePressed((MousePressedEvent) e));
+		dispatcher.dispatch(Event.Type.MOUSE_RELEASED, (Event e) -> onMouseReleased((MouseReleasedEvent) e));
+
+		/*
+		 * (Event e) -> onMouseReleased((MouseReleasedEvent) e)
+		 * is the lambda function, it's the same as:
+		 * new EventHandler() {
+		 *     public boolean onEvent(Event event) {
+		 *         return onMouseReleased((MouseReleasedEvent) event);
+		 *     }
+		 * }
+		 */
+	}
+
 	public void update() {
 		/**
 		List<Entity> es = level.getEntities(this, 80);
@@ -337,12 +361,45 @@ public class Player extends Mob {
 		updateUI();
 	}
 
+	public boolean onMousePressed(MousePressedEvent e) {
+		/*
+		if (Mouse.getX() > 660)
+			return false;
+
+		if (e.getButton() == MouseEvent.BUTTON1) {
+			shooting = true;
+			return true;
+		}
+		*/
+		return false;
+	}
+
+	public boolean onMouseReleased(MouseReleasedEvent e) {
+		if (e.getButton() == MouseEvent.BUTTON1) {
+			shooting = false;
+			return true;
+		}
+		return false;
+	}
+
 	private void clear() {
 		for (int i = 0; i < level.getProjectiles().size(); i++) {
 			Projectile p = level.getProjectiles().get(i);
 			if (p.isRemoved()) level.getProjectiles().remove(i);
 		}
 		// System.out.println("Total projectiles: " + level.getProjectiles().size());
+	}
+
+	// from Ep. 124 - not in use
+	private void updateShooting2() {
+		if (!shooting)
+			return;
+
+		double dx = Mouse.getX() - Game.getWindowWidth() / 2;
+		double dy = Mouse.getY() - Game.getWindowHeight() / 2;
+		double dir = Math.atan2(dy, dx);
+		shoot(x, y, dir, this.weapon);
+		fireRate = WizardProjectile.FIRE_RATE;
 	}
 
 	private void updateShooting() {
